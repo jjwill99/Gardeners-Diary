@@ -16,3 +16,12 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::get('list', 'UserController@list');
+Route::get('show/{id}', 'UserController@show');
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/garden', 'GardenController@index')->name('garden');
+
+Route::resource('garden', 'GardenController');
