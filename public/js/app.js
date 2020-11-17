@@ -1932,6 +1932,30 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/GardenGrid.vue?vue&type=script&lang=js&":
+/*!*********************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/GardenGrid.vue?vue&type=script&lang=js& ***!
+  \*********************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
+/* harmony default export */ __webpack_exports__["default"] = ({
+  props: {
+    garden_width: {
+      "default": 0,
+      type: Number
+    }
+  }
+});
+
+/***/ }),
+
 /***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/GardenItem.vue?vue&type=script&lang=js&":
 /*!*********************************************************************************************************************************************************************!*\
   !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/GardenItem.vue?vue&type=script&lang=js& ***!
@@ -1948,13 +1972,24 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
     garden_name: {
       "default": "No Name",
       type: String
     },
-    picture: {}
+    picture: {},
+    garden_link: {}
   }
 });
 
@@ -37582,6 +37617,40 @@ render._withStripped = true
 
 /***/ }),
 
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/GardenGrid.vue?vue&type=template&id=e1b42b74&":
+/*!*************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/GardenGrid.vue?vue&type=template&id=e1b42b74& ***!
+  \*************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    {
+      staticClass: "border border-dark",
+      style: {
+        width: 70 / _vm.garden_width + "vw",
+        height: 70 / _vm.garden_width + "vw"
+      }
+    },
+    [_vm._v("T")]
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
 /***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/GardenItem.vue?vue&type=template&id=7b3fa8da&":
 /*!*************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/GardenItem.vue?vue&type=template&id=7b3fa8da& ***!
@@ -37597,16 +37666,45 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", [
-    _vm._v("\n    " + _vm._s(_vm.garden_name) + "\n    "),
-    _vm.picture !=
+  return _vm.picture !=
     "http://localhost/Laravel/Gardeners-Diary/public/storage/images"
-      ? _c("img", {
-          staticStyle: { width: "50%", height: "50%" },
-          attrs: { src: _vm.picture }
-        })
-      : _vm._e()
-  ])
+    ? _c(
+        "a",
+        {
+          staticClass: "card m-2",
+          staticStyle: { width: "20rem" },
+          attrs: { href: _vm.garden_link }
+        },
+        [
+          _c("img", { staticClass: "card-img", attrs: { src: _vm.picture } }),
+          _vm._v(" "),
+          _c("div", { staticClass: "card-img-overlay d-flex" }, [
+            _c("h1", { staticClass: "align-self-center mx-auto text-white" }, [
+              _vm._v(_vm._s(_vm.garden_name))
+            ])
+          ])
+        ]
+      )
+    : _c(
+        "a",
+        {
+          staticClass: "btn card m-2",
+          staticStyle: { width: "20rem" },
+          attrs: { href: _vm.garden_link }
+        },
+        [
+          _c("div", { staticClass: "card-body d-flex" }, [
+            _c(
+              "p",
+              {
+                staticClass: "align-self-center mx-auto text-black",
+                staticStyle: { "font-size": "2vw" }
+              },
+              [_vm._v(_vm._s(_vm.garden_name))]
+            )
+          ])
+        ]
+      )
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -49787,6 +49885,7 @@ module.exports = function(module) {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_GardenItem_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./components/GardenItem.vue */ "./resources/js/components/GardenItem.vue");
+/* harmony import */ var _components_GardenGrid_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./components/GardenGrid.vue */ "./resources/js/components/GardenGrid.vue");
 /**
  * First we will load all of this project's JavaScript dependencies which
  * includes Vue and other libraries. It is a great starting point when
@@ -49808,6 +49907,8 @@ window.Vue = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.
 Vue.component('example-component', __webpack_require__(/*! ./components/ExampleComponent.vue */ "./resources/js/components/ExampleComponent.vue")["default"]);
 
 Vue.component('garden-item', _components_GardenItem_vue__WEBPACK_IMPORTED_MODULE_0__["default"]);
+
+Vue.component('garden-grid', _components_GardenGrid_vue__WEBPACK_IMPORTED_MODULE_1__["default"]);
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
@@ -49929,6 +50030,75 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ExampleComponent_vue_vue_type_template_id_299e239e___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ExampleComponent_vue_vue_type_template_id_299e239e___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
+/***/ "./resources/js/components/GardenGrid.vue":
+/*!************************************************!*\
+  !*** ./resources/js/components/GardenGrid.vue ***!
+  \************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _GardenGrid_vue_vue_type_template_id_e1b42b74___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./GardenGrid.vue?vue&type=template&id=e1b42b74& */ "./resources/js/components/GardenGrid.vue?vue&type=template&id=e1b42b74&");
+/* harmony import */ var _GardenGrid_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./GardenGrid.vue?vue&type=script&lang=js& */ "./resources/js/components/GardenGrid.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _GardenGrid_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _GardenGrid_vue_vue_type_template_id_e1b42b74___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _GardenGrid_vue_vue_type_template_id_e1b42b74___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/GardenGrid.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/components/GardenGrid.vue?vue&type=script&lang=js&":
+/*!*************************************************************************!*\
+  !*** ./resources/js/components/GardenGrid.vue?vue&type=script&lang=js& ***!
+  \*************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_GardenGrid_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib??ref--4-0!../../../node_modules/vue-loader/lib??vue-loader-options!./GardenGrid.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/GardenGrid.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_GardenGrid_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/GardenGrid.vue?vue&type=template&id=e1b42b74&":
+/*!*******************************************************************************!*\
+  !*** ./resources/js/components/GardenGrid.vue?vue&type=template&id=e1b42b74& ***!
+  \*******************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_GardenGrid_vue_vue_type_template_id_e1b42b74___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib??vue-loader-options!./GardenGrid.vue?vue&type=template&id=e1b42b74& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/GardenGrid.vue?vue&type=template&id=e1b42b74&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_GardenGrid_vue_vue_type_template_id_e1b42b74___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_GardenGrid_vue_vue_type_template_id_e1b42b74___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
 

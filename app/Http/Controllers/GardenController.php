@@ -15,13 +15,13 @@ class GardenController extends Controller
     public function index()
     {
         $userId = \Auth::user()->id;
-        $gardensQuery = Garden::all();
+        $gardensQuery = Garden::orderBy('id')->get();
         return view('gardens.index', array('userId'=>$userId, 'gardens'=>$gardensQuery));
     }
 
     public function show($id){
         $garden = Garden::find($id);
-        return view('show', array('garden'=> $garden));
+        return view('gardens.show', array('garden'=> $garden));
     }
 
     public function create(){

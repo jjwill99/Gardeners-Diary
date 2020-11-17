@@ -24,6 +24,9 @@ Vue.component('example-component', require('./components/ExampleComponent.vue').
 import GardenItem from './components/GardenItem.vue';
 Vue.component('garden-item', GardenItem);
 
+import GardenGrid from './components/GardenGrid.vue';
+Vue.component('garden-grid', GardenGrid);
+
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
