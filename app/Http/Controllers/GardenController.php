@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Garden;
+use App\Plant;
 
 class GardenController extends Controller
 {
@@ -64,6 +65,19 @@ class GardenController extends Controller
         
         //Generate a redirect HTTP response with a success message
         return back()->with('success', 'Garden has been added');
+    }
+
+    public function destroy($id)
+    {
+    	$garden = Garden::find($id);
+    	$garden->delete();
+
+        $plants = Plant::where("garden_id", "=", $id)->get();
+        foreach ($plants as $plant) {
+            $plant->delete();
+        }
+        
+        return redirect('garden')->with('success','Garden has been deleted');
     }
 
 }

@@ -1945,11 +1945,21 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
-    garden_width: {
-      "default": 0,
-      type: Number
+    garden_width: Number,
+    garden_length: Number,
+    colour: {
+      type: String,
+      "default": "green"
+    }
+  },
+  methods: {
+    mouseclick: function mouseclick() {
+      this.colour = 'saddlebrown';
     }
   }
 });
@@ -1982,14 +1992,66 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
-    garden_name: {
-      "default": "No Name",
-      type: String
+    garden_name: String,
+    picture: String,
+    garden_link: String,
+    csrf: String,
+    del: String
+  },
+  computed: {
+    newPicture: function newPicture() {
+      if (this.picture == "http://localhost/Laravel/Gardeners-Diary/public/storage/images") {
+        return "http://localhost/Laravel/Gardeners-Diary/public/Images/gardenItem.jpg";
+      } else {
+        return this.picture;
+      }
+    }
+  }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/GardenTile.vue?vue&type=script&lang=js&":
+/*!*********************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/GardenTile.vue?vue&type=script&lang=js& ***!
+  \*********************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+/* harmony default export */ __webpack_exports__["default"] = ({
+  props: {
+    tile_name: String,
+    colour: {
+      type: String,
+      "default": "green"
     },
-    picture: {},
-    garden_link: {}
+    background_colour: {
+      type: String,
+      "default": "#eee"
+    }
+  },
+  methods: {
+    mouseclick: function mouseclick() {
+      this.background_colour = 'gold';
+    }
   }
 });
 
@@ -37632,17 +37694,25 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c(
-    "div",
-    {
-      staticClass: "border border-dark",
-      style: {
-        width: 70 / _vm.garden_width + "vw",
-        height: 70 / _vm.garden_width + "vw"
-      }
-    },
-    [_vm._v("T")]
-  )
+  return _vm.garden_width >= _vm.garden_length
+    ? _c("div", {
+        staticClass: "border border-dark",
+        style: {
+          width: 80 / _vm.garden_width + "vw",
+          height: 80 / _vm.garden_width + "vw",
+          backgroundColor: _vm.colour
+        },
+        on: { dragover: _vm.mouseclick }
+      })
+    : _c("div", {
+        staticClass: "border border-dark",
+        style: {
+          width: 80 / _vm.garden_length + "vh",
+          height: 80 / _vm.garden_length + "vh",
+          backgroundColor: _vm.colour
+        },
+        on: { dragover: _vm.mouseclick }
+      })
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -37666,45 +37736,99 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _vm.picture !=
-    "http://localhost/Laravel/Gardeners-Diary/public/storage/images"
-    ? _c(
-        "a",
-        {
-          staticClass: "card m-2",
-          staticStyle: { width: "20rem" },
-          attrs: { href: _vm.garden_link }
-        },
-        [
-          _c("img", { staticClass: "card-img", attrs: { src: _vm.picture } }),
+  return _c(
+    "div",
+    { staticClass: "card m-2", staticStyle: { width: "20rem" } },
+    [
+      _c("a", { attrs: { href: _vm.garden_link } }, [
+        _c("img", {
+          staticClass: "card-img img-fluid",
+          staticStyle: { height: "14vw" },
+          attrs: { src: _vm.newPicture, alt: "Garden Item Image" }
+        }),
+        _vm._v(" "),
+        _c("div", { staticClass: "card-img-overlay d-flex" }, [
+          _c("h1", { staticClass: "align-self-center mx-auto text-white" }, [
+            _vm._v(_vm._s(_vm.garden_name))
+          ]),
           _vm._v(" "),
-          _c("div", { staticClass: "card-img-overlay d-flex" }, [
-            _c("h1", { staticClass: "align-self-center mx-auto text-white" }, [
-              _vm._v(_vm._s(_vm.garden_name))
-            ])
-          ])
-        ]
-      )
-    : _c(
-        "a",
-        {
-          staticClass: "btn card m-2",
-          staticStyle: { width: "20rem" },
-          attrs: { href: _vm.garden_link }
-        },
-        [
-          _c("div", { staticClass: "card-body d-flex" }, [
+          _c("form", { attrs: { action: _vm.del, method: "post" } }, [
+            _c("input", {
+              attrs: { name: "_token", type: "hidden" },
+              domProps: { value: _vm.csrf }
+            }),
+            _vm._v(" "),
+            _c("input", {
+              attrs: { name: "_method", type: "hidden", value: "DELETE" }
+            }),
+            _vm._v(" "),
             _c(
-              "p",
-              {
-                staticClass: "align-self-center mx-auto text-black",
-                staticStyle: { "font-size": "2vw" }
-              },
-              [_vm._v(_vm._s(_vm.garden_name))]
+              "button",
+              { staticClass: "btn btn-danger", attrs: { type: "submit" } },
+              [_vm._v("Delete")]
             )
           ])
-        ]
+        ])
+      ])
+    ]
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/GardenTile.vue?vue&type=template&id=02ac84a4&":
+/*!*************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/GardenTile.vue?vue&type=template&id=02ac84a4& ***!
+  \*************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    {
+      staticClass: "border-top border-dark",
+      style: {
+        height: "9vh",
+        padding: "1vh",
+        backgroundColor: _vm.background_colour
+      }
+    },
+    [
+      _c("div", {
+        staticClass: "border border-dark",
+        style: {
+          width: "7vh",
+          height: "7vh",
+          backgroundColor: _vm.colour,
+          float: "left"
+        },
+        on: { click: _vm.mouseclick }
+      }),
+      _vm._v(" "),
+      _c(
+        "div",
+        { staticClass: "d-flex", staticStyle: { height: "7vh" } },
+        [
+          _c("center", { staticClass: "align-self-center mx-auto" }, [
+            _vm._v(_vm._s(_vm.tile_name))
+          ])
+        ],
+        1
       )
+    ]
+  )
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -49886,6 +50010,7 @@ module.exports = function(module) {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_GardenItem_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./components/GardenItem.vue */ "./resources/js/components/GardenItem.vue");
 /* harmony import */ var _components_GardenGrid_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./components/GardenGrid.vue */ "./resources/js/components/GardenGrid.vue");
+/* harmony import */ var _components_GardenTile_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./components/GardenTile.vue */ "./resources/js/components/GardenTile.vue");
 /**
  * First we will load all of this project's JavaScript dependencies which
  * includes Vue and other libraries. It is a great starting point when
@@ -49909,6 +50034,8 @@ Vue.component('example-component', __webpack_require__(/*! ./components/ExampleC
 Vue.component('garden-item', _components_GardenItem_vue__WEBPACK_IMPORTED_MODULE_0__["default"]);
 
 Vue.component('garden-grid', _components_GardenGrid_vue__WEBPACK_IMPORTED_MODULE_1__["default"]);
+
+Vue.component('garden-tile', _components_GardenTile_vue__WEBPACK_IMPORTED_MODULE_2__["default"]);
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
@@ -50168,6 +50295,75 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_GardenItem_vue_vue_type_template_id_7b3fa8da___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_GardenItem_vue_vue_type_template_id_7b3fa8da___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
+/***/ "./resources/js/components/GardenTile.vue":
+/*!************************************************!*\
+  !*** ./resources/js/components/GardenTile.vue ***!
+  \************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _GardenTile_vue_vue_type_template_id_02ac84a4___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./GardenTile.vue?vue&type=template&id=02ac84a4& */ "./resources/js/components/GardenTile.vue?vue&type=template&id=02ac84a4&");
+/* harmony import */ var _GardenTile_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./GardenTile.vue?vue&type=script&lang=js& */ "./resources/js/components/GardenTile.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _GardenTile_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _GardenTile_vue_vue_type_template_id_02ac84a4___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _GardenTile_vue_vue_type_template_id_02ac84a4___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/GardenTile.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/components/GardenTile.vue?vue&type=script&lang=js&":
+/*!*************************************************************************!*\
+  !*** ./resources/js/components/GardenTile.vue?vue&type=script&lang=js& ***!
+  \*************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_GardenTile_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib??ref--4-0!../../../node_modules/vue-loader/lib??vue-loader-options!./GardenTile.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/GardenTile.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_GardenTile_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/GardenTile.vue?vue&type=template&id=02ac84a4&":
+/*!*******************************************************************************!*\
+  !*** ./resources/js/components/GardenTile.vue?vue&type=template&id=02ac84a4& ***!
+  \*******************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_GardenTile_vue_vue_type_template_id_02ac84a4___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib??vue-loader-options!./GardenTile.vue?vue&type=template&id=02ac84a4& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/GardenTile.vue?vue&type=template&id=02ac84a4&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_GardenTile_vue_vue_type_template_id_02ac84a4___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_GardenTile_vue_vue_type_template_id_02ac84a4___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
 
