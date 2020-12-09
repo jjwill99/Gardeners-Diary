@@ -17,7 +17,7 @@
         },
         methods:{
             mouseclick: function(){
-                this.colour = 'saddlebrown';
+                this.colour = this.$store.state.tile.colour;
             }
         }
     }
