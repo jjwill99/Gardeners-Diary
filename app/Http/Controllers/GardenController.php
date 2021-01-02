@@ -29,6 +29,10 @@ class GardenController extends Controller
         return view('gardens.create');
     }
 
+    public function save(Request $request){
+        echo "TEST!";
+    }
+
     public function store(Request $request){
         //form validation
         $garden = $this->validate(request(), [

@@ -1,7 +1,11 @@
 <template>
-    <div class="border border-dark" :style="{ width: (80/garden_width) + 'vw', height: (80/garden_width) + 'vw', backgroundColor: colour}" v-on:dragover="mouseclick" v-if="garden_width >= garden_length"></div>
+    <div class="border border-dark" :style="{ width: (80/garden_width) + 'vw', height: (80/garden_width) + 'vw', backgroundColor: colour}" v-on:dragover="mouseclick" v-on:click="mouseclick" v-if="garden_width >= garden_length">
+        <input type="hidden" :name="grid_row" :value='{"row":grid_row, "column":grid_column, "colour":colour}' />
+    </div>
 
-    <div class="border border-dark" :style="{ width: (80/garden_length) + 'vh', height: (80/garden_length) + 'vh', backgroundColor: colour}" v-on:dragover="mouseclick" v-else></div>
+    <div class="border border-dark" :style="{ width: (80/garden_length) + 'vh', height: (80/garden_length) + 'vh', backgroundColor: colour}" v-on:dragover="mouseclick" v-on:click="mouseclick" v-else>
+        <input type="hidden" :name="grid_row" :value='{"row":grid_row, "column":grid_column, "colour":colour}' />
+    </div>
 
 </template>
 
@@ -10,6 +14,8 @@
         props:{
             garden_width: Number,
             garden_length: Number,
+            grid_row: Number,
+            grid_column: Number,
             colour: {
                 type: String,
                 default: "green"

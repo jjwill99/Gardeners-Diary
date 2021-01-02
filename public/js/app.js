@@ -1948,10 +1948,16 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
     garden_width: Number,
     garden_length: Number,
+    grid_row: Number,
+    grid_column: Number,
     colour: {
       type: String,
       "default": "green"
@@ -37705,24 +37711,54 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _vm.garden_width >= _vm.garden_length
-    ? _c("div", {
-        staticClass: "border border-dark",
-        style: {
-          width: 80 / _vm.garden_width + "vw",
-          height: 80 / _vm.garden_width + "vw",
-          backgroundColor: _vm.colour
+    ? _c(
+        "div",
+        {
+          staticClass: "border border-dark",
+          style: {
+            width: 80 / _vm.garden_width + "vw",
+            height: 80 / _vm.garden_width + "vw",
+            backgroundColor: _vm.colour
+          },
+          on: { dragover: _vm.mouseclick, click: _vm.mouseclick }
         },
-        on: { dragover: _vm.mouseclick }
-      })
-    : _c("div", {
-        staticClass: "border border-dark",
-        style: {
-          width: 80 / _vm.garden_length + "vh",
-          height: 80 / _vm.garden_length + "vh",
-          backgroundColor: _vm.colour
+        [
+          _c("input", {
+            attrs: { type: "hidden", name: _vm.grid_row },
+            domProps: {
+              value: {
+                row: _vm.grid_row,
+                column: _vm.grid_column,
+                colour: _vm.colour
+              }
+            }
+          })
+        ]
+      )
+    : _c(
+        "div",
+        {
+          staticClass: "border border-dark",
+          style: {
+            width: 80 / _vm.garden_length + "vh",
+            height: 80 / _vm.garden_length + "vh",
+            backgroundColor: _vm.colour
+          },
+          on: { dragover: _vm.mouseclick, click: _vm.mouseclick }
         },
-        on: { dragover: _vm.mouseclick }
-      })
+        [
+          _c("input", {
+            attrs: { type: "hidden", name: _vm.grid_row },
+            domProps: {
+              value: {
+                row: _vm.grid_row,
+                column: _vm.grid_column,
+                colour: _vm.colour
+              }
+            }
+          })
+        ]
+      )
 }
 var staticRenderFns = []
 render._withStripped = true

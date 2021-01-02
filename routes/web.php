@@ -23,6 +23,7 @@ Route::get('show/{id}', 'UserController@show');
 
 Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/garden', 'GardenController@index')->name('garden');
+Route::get('/save', 'GardenController@save')->name('save');
 
 Route::resource('garden', 'GardenController');
 Route::resource('plant', 'PlantController');
