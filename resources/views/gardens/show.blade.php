@@ -34,17 +34,42 @@
         <garden-tile colour="burlyWood" tile_name="Tile"></garden-tile>
     </div>
     
-    <form method="POST" action="{{ action('GardenController@save') }}">
+    <form method="POST" action="{{ action('GardenController@update', $garden->id) }}">
+        {!! method_field('patch') !!}
         <input type="hidden" name="_token" value="{{ csrf_token() }}">
         <div class="grid">
-            @for($i = 0; $i < $garden->length; $i++)
-                <div class="row justify-content-center">
-                    @for($j = 0; $j < $garden->width; $j++)
-                        <garden-grid :garden_width="{{ $garden->width }}" :garden_length="{{ $garden->length }}"
-                            :grid_row="{{ $i }}" :grid_column="{{ $j }}"></garden-grid>
-                    @endfor
-                </div>
-            @endfor
+            <div class="row justify-content-center">
+                <?php
+                    $tiles = preg_split("/(},{)/", json_decode($garden->grid)[0]);
+
+                    $row = 0;
+
+                    foreach ($tiles as $value) {
+                        if ($value[0] != '{') {
+                            $value = '{'.$value;
+                        }
+                        if (substr($value, -1) != '}') {
+                            $value .= '}';
+                        }
+
+                        $tile = json_decode($value, true);
+
+                        $newRow = $tile["row"];
+
+                        if ($newRow != $row) {
+                            ?>
+                            </div>
+                            <div class="row justify-content-center">
+                            <?php
+                            $row = $newRow;
+                        }
+                        ?>
+                        <garden-grid :garden_width="{{ $garden->width }}" :garden_length="{{ $garden->length }}" colour="{{ $tile['colour'] }}"
+                            :grid_row="{{ $tile['row'] }}" :grid_column="{{ $tile['column'] }}"></garden-grid>
+                        <?php
+                    }
+                ?>
+            </div>
         </div>
         <div class="save">
             <input type="submit" class="btn btn-primary" value="Save Layout" />

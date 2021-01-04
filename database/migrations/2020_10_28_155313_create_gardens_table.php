@@ -19,6 +19,7 @@ class CreateGardensTable extends Migration
             $table->string('name');
             $table->integer('width');
             $table->integer('length');
+            $table->json('grid');
             $table->binary('picture')->nullable();
             $table->timestamps();
         });

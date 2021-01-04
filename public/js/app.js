@@ -1952,16 +1952,14 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
     garden_width: Number,
     garden_length: Number,
     grid_row: Number,
     grid_column: Number,
-    colour: {
-      type: String,
-      "default": "green"
-    }
+    colour: String
   },
   methods: {
     mouseclick: function mouseclick() {
@@ -37724,7 +37722,7 @@ var render = function() {
         },
         [
           _c("input", {
-            attrs: { type: "hidden", name: _vm.grid_row },
+            attrs: { type: "hidden", name: _vm.grid_row + _vm.grid_column },
             domProps: {
               value: {
                 row: _vm.grid_row,
@@ -37748,14 +37746,11 @@ var render = function() {
         },
         [
           _c("input", {
-            attrs: { type: "hidden", name: _vm.grid_row },
-            domProps: {
-              value: {
-                row: _vm.grid_row,
-                column: _vm.grid_column,
-                colour: _vm.colour
-              }
-            }
+            attrs: {
+              type: "hidden",
+              name: _vm.grid_row + "" + _vm.grid_column
+            },
+            domProps: { value: _vm.colour }
           })
         ]
       )

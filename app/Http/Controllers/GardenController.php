@@ -29,8 +29,27 @@ class GardenController extends Controller
         return view('gardens.create');
     }
 
-    public function save(Request $request){
-        echo "TEST!";
+    public function update(Request $request, $id){
+        $garden = Garden::find($id);
+        $row = $garden->length - 1;
+        $column = $garden->width - 1;
+
+        //Create JSON
+        $json = '["';
+
+        //Loop through form inputs
+        for ($i=0; $i <= $row; $i++) { 
+            for ($j=0; $j <= $column; $j++) { 
+                $json .= '{\\"row\\":' . $i . ',\\"column\\":' . $j . ',\\"colour\\":\\"' . $request->input($i.$j) . '\\"},';
+            }
+        }
+        $json = rtrim($json, ",");
+        $json .= '"]';
+        
+        $garden->grid = $json;
+        $garden->save();
+        
+        return back()->with('success', ' Garden has been updated');
     }
 
     public function store(Request $request){
@@ -48,6 +67,17 @@ class GardenController extends Controller
         $garden->name = $request->input('name');
         $garden->width = $request->input('width');
         $garden->length = $request->input('length');
+
+        //Create JSON
+        $json = '["';
+        for ($i=0; $i < $garden->length; $i++) { 
+            for ($j=0; $j < $garden->width; $j++) { 
+                $json .= '{\\"row\\":' . $i . ',\\"column\\":' . $j . ',\\"colour\\":\\"green\\"},';
+            }
+        }
+        $json = rtrim($json, ",");
+        $json .= '"]';
+        $garden->grid = $json;
 
         //Handles the uploading of the picture
         if ($request->hasFile('picture')){
