@@ -40,7 +40,7 @@ class GardenController extends Controller
         //Loop through form inputs
         for ($i=0; $i <= $row; $i++) { 
             for ($j=0; $j <= $column; $j++) { 
-                $json .= '{\\"row\\":' . $i . ',\\"column\\":' . $j . ',\\"colour\\":\\"' . $request->input($i.$j) . '\\"},';
+                $json .= '{\\"row\\":' . $i . ',\\"column\\":' . $j . ',\\"colour\\":\\"' . $request->input($i.",".$j) . '\\"},';
             }
         }
         $json = rtrim($json, ",");

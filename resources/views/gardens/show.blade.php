@@ -27,16 +27,20 @@
 
 @section('content')
 <div>
-    <div class="sidebar border border-dark">
-        <center>SELECT A TILE:</center>
-        <garden-tile colour="green" tile_name="Grass" background_colour="gold"></garden-tile>
-        <garden-tile colour="saddleBrown" tile_name="Soil"></garden-tile>
-        <garden-tile colour="burlyWood" tile_name="Tile"></garden-tile>
-    </div>
-    
     <form method="POST" action="{{ action('GardenController@update', $garden->id) }}">
         {!! method_field('patch') !!}
         <input type="hidden" name="_token" value="{{ csrf_token() }}">
+        
+        <div class="sidebar border border-dark">
+            <center>SELECT A TILE:</center>
+            <garden-tile colour="green" tile_name="Grass" background_colour="gold"></garden-tile>
+            <garden-tile colour="saddleBrown" tile_name="Soil"></garden-tile>
+            <garden-tile colour="burlyWood" tile_name="Tile"></garden-tile>
+            <garden-tile colour="burlyWood" tile_name="Add a plant"></garden-tile>
+
+            <input type="submit" class="btn btn-primary btn-block rounded-0" value="Save Layout" />
+        </div>
+    
         <div class="grid">
             <div class="row justify-content-center">
                 <?php
@@ -70,9 +74,6 @@
                     }
                 ?>
             </div>
-        </div>
-        <div class="save">
-            <input type="submit" class="btn btn-primary" value="Save Layout" />
         </div>
     </form>
 
