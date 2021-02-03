@@ -33,12 +33,11 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav mr-auto">
-                        @guest
-                        @else
+                        @if(Auth::user())
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ url('garden') }}">My Garden</a>
                             </li>
-                        @endguest
+                        @endif
                     </ul>
 
                     <!-- Right Side Of Navbar -->
