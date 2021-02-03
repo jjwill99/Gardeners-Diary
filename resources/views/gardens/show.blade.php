@@ -36,7 +36,7 @@
             <garden-tile colour="green" tile_name="Grass" background_colour="gold"></garden-tile>
             <garden-tile colour="saddleBrown" tile_name="Soil"></garden-tile>
             <garden-tile colour="burlyWood" tile_name="Tile"></garden-tile>
-            <garden-tile colour="burlyWood" tile_name="Add a plant"></garden-tile>
+            <garden-tile icon="plant" tile_name="Add a plant"></garden-tile>
 
             <input type="submit" class="btn btn-primary btn-block rounded-0" value="Save Layout" />
         </div>
