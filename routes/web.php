@@ -27,3 +27,5 @@ Route::get('/garden', 'GardenController@index')->name('garden');
 
 Route::resource('garden', 'GardenController');
 Route::resource('plant', 'PlantController');
+
+Route::get('{garden_id}', ['uses' => 'GardenController@show', 'middleware' => 'AuthResource']);
