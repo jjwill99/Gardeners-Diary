@@ -16,8 +16,8 @@ class AuthResource
      */
     public function handle($request, Closure $next)
     {
-        if ($request->route('garden_id')) {
-            $garden = Garden::find($request->route('garden_id'));
+        if ($request->route('garden')) {
+            $garden = Garden::find($request->route('garden'));
             if ($garden && $garden->user_id != auth()->user()->id) {
                 return redirect('/garden');
             }
