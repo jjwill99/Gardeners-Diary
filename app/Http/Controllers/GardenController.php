@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Garden;
 use App\Plant;
+use App\CustomTile;
 
 class GardenController extends Controller
 {
@@ -16,13 +17,15 @@ class GardenController extends Controller
     public function index()
     {
         $userId = \Auth::user()->id;
-        $gardensQuery = Garden::orderBy('id')->get();
-        return view('gardens.index', array('userId'=>$userId, 'gardens'=>$gardensQuery));
+        $gardensQuery = Garden::orderBy('id')->get()->where('user_id', '=', $userId);
+        return view('gardens.index', array('gardens'=>$gardensQuery));
     }
 
     public function show($id){
+        $userId = \Auth::user()->id;
         $garden = Garden::find($id);
-        return view('gardens.show', array('garden'=> $garden));
+        $customTiles = CustomTile::orderBy('id')->get()->where('user_id', '=', $userId);
+        return view('gardens.show', array('garden'=> $garden, 'customTiles'=>$customTiles));
     }
 
     public function create(){
