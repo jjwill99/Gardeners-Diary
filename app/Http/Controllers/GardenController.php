@@ -33,26 +33,30 @@ class GardenController extends Controller
     }
 
     public function update(Request $request, $id){
-        $garden = Garden::find($id);
-        $row = $garden->length - 1;
-        $column = $garden->width - 1;
+        if ($request->input('action') == 'Save Layout') {
+            $garden = Garden::find($id);
+            $row = $garden->length - 1;
+            $column = $garden->width - 1;
 
-        //Create JSON
-        $json = '["';
+            //Create JSON
+            $json = '["';
 
-        //Loop through form inputs
-        for ($i=0; $i <= $row; $i++) { 
-            for ($j=0; $j <= $column; $j++) { 
-                $json .= '{\\"row\\":' . $i . ',\\"column\\":' . $j . ',\\"colour\\":\\"' . $request->input($i.",".$j) . '\\"},';
+            //Loop through form inputs
+            for ($i=0; $i <= $row; $i++) { 
+                for ($j=0; $j <= $column; $j++) { 
+                    $json .= '{\\"row\\":' . $i . ',\\"column\\":' . $j . ',\\"colour\\":\\"' . $request->input($i.",".$j) . '\\"},';
+                }
             }
+            $json = rtrim($json, ",");
+            $json .= '"]';
+            
+            $garden->grid = $json;
+            $garden->save();
+            
+            return back()->with('success', ' Garden has been updated');
+        } else {
+            return view('customTiles.create');
         }
-        $json = rtrim($json, ",");
-        $json .= '"]';
-        
-        $garden->grid = $json;
-        $garden->save();
-        
-        return back()->with('success', ' Garden has been updated');
     }
 
     public function store(Request $request){

@@ -27,5 +27,6 @@ Route::get('/garden', 'GardenController@index')->name('garden');
 
 Route::resource('garden', 'GardenController');
 Route::resource('plant', 'PlantController');
+Route::resource('customTile', 'CustomTileController');
 
 Route::get('garden/{garden}', ['uses' => 'GardenController@show', 'middleware' => 'AuthResource']);

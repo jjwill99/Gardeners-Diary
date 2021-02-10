@@ -37,17 +37,19 @@
             <garden-tile colour="saddleBrown" tile_name="Soil"></garden-tile>
             <garden-tile colour="burlyWood" tile_name="Tile"></garden-tile>
             <garden-tile colour="lightSkyBlue" tile_name="Water"></garden-tile>
-            <!-- <garden-tile icon="plant" tile_name="Add a plant"></garden-tile> -->
 
             <?php
-            
+
                 foreach ($customTiles as $customTile) {
-                    echo('<garden-tile icon="' . $customTile->icon . '" tile_name="' . $customTile->tile_name . '"></garden-tile>');
+                    echo('<garden-tile icon="' . $customTile->icon . '" tile_name="' . $customTile->tile_name . '" del="' . action('CustomTileController@destroy', $customTile->id) .
+                        '" csrf="' . csrf_token() . '"></garden-tile>');
                 }
 
             ?>
-
-            <input type="submit" class="btn btn-primary btn-block rounded-0" value="Save Layout" />
+            <center>
+                <input type="submit" class="btn btn-primary rounded-0" style="width: 49%;" name="action" value="Add Plant" />
+                <input type="submit" class="btn btn-primary rounded-0" style="width: 49%;" name="action" value="Save Layout" onclick="noConfirm()" />
+            </center>
         </div>
     
         <div class="grid">
@@ -87,4 +89,18 @@
     </form>
 
 </div>
+
 @endsection
+
+
+<script>
+
+window.onbeforeunload = function(){
+        return "Adding a new plant option will undo any unsaved changes.";
+    };
+
+function noConfirm(){
+    window.onbeforeunload = null;
+};
+
+</script>

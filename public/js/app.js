@@ -2123,6 +2123,17 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
     tile_name: String,
@@ -2137,6 +2148,14 @@ __webpack_require__.r(__webpack_exports__);
     icon: {
       type: String,
       "default": ""
+    },
+    del: {
+      type: String,
+      "default": "{{ action('GardenController@destroy', $garden->id) }}"
+    },
+    csrf: {
+      type: String,
+      "default": ""
     }
   },
   computed: {
@@ -2148,7 +2167,11 @@ __webpack_require__.r(__webpack_exports__);
       }
     },
     image: function image() {
-      return "http://localhost/Laravel/Gardeners-Diary/public/Images/" + this.icon + ".png";
+      if (this.icon.substring(0, 6) == "custom") {
+        return "http://localhost/Laravel/Gardeners-Diary/public/storage/images/" + this.icon.substring(6);
+      } else {
+        return "http://localhost/Laravel/Gardeners-Diary/public/Images/" + this.icon + ".png";
+      }
     }
   },
   methods: {
@@ -38010,7 +38033,28 @@ var render = function() {
             { staticClass: "d-flex", staticStyle: { height: "7vh" } },
             [
               _c("center", { staticClass: "align-self-center mx-auto" }, [
-                _vm._v(_vm._s(_vm.tile_name))
+                _vm._v(
+                  "\n            " + _vm._s(_vm.tile_name) + "\n\n            "
+                ),
+                _c("form", { attrs: { action: _vm.del, method: "post" } }, [
+                  _c("input", {
+                    attrs: { name: "_token", type: "hidden" },
+                    domProps: { value: _vm.csrf }
+                  }),
+                  _vm._v(" "),
+                  _c("input", {
+                    attrs: { name: "_method", type: "hidden", value: "DELETE" }
+                  }),
+                  _vm._v(" "),
+                  _c(
+                    "button",
+                    {
+                      staticClass: "btn btn-danger",
+                      attrs: { type: "submit", onclick: "noConfirm()" }
+                    },
+                    [_vm._v("Delete")]
+                  )
+                ])
               ])
             ],
             1

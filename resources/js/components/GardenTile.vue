@@ -11,8 +11,19 @@
         <div class="border border-dark" :style="{width:'7vh', height:'7vh', backgroundColor: colour, float:'left'}" v-on:click="iconclick">
             <img class="card-img img-fluid" :src=image alt="Plant Icon">
         </div>
+        
         <div class="d-flex" style="height:7vh">
-            <center class="align-self-center mx-auto">{{tile_name}}</center>
+            
+            <center class="align-self-center mx-auto">
+                {{tile_name}}
+
+                <form :action=del method="post">
+                    <input name="_token" type="hidden" :value=csrf>
+                    <input name="_method" type="hidden" value="DELETE">
+                    <button class="btn btn-danger" type="submit" onclick="noConfirm()">Delete</button>
+                </form>
+
+            </center>
         </div>
     </div>
 
@@ -33,6 +44,14 @@
             icon: {
                 type: String,
                 default: ""
+            },
+            del: {
+                type: String,
+                default: "{{ action('GardenController@destroy', $garden->id) }}"
+            },
+            csrf: {
+                type:String,
+                default: ""
             }
         },
         computed: {
@@ -44,7 +63,11 @@
                 }
             },
             image: function () {
-                return "http://localhost/Laravel/Gardeners-Diary/public/Images/" + this.icon + ".png";
+                if (this.icon.substring(0, 6) == "custom") {
+                    return "http://localhost/Laravel/Gardeners-Diary/public/storage/images/" + this.icon.substring(6);
+                } else {
+                    return "http://localhost/Laravel/Gardeners-Diary/public/Images/" + this.icon + ".png";
+                }
             }
         },
         methods:{
