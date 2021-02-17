@@ -3,10 +3,12 @@
     <div class="border border-dark" :style="{ width: tile_size + dimensionUnit, height: tile_size + dimensionUnit, backgroundColor: colour}" v-on:dragover="mouseclick" v-on:click="mouseclick">
         <input type="hidden" :name="grid_row + ',' + grid_column" :value="colour" />
         <div style="position: relative;">
-            <img class="card-img img-fluid" :style=icon :src=icon1 alt="Plant Icon" v-if="icon1">
-            <img class="card-img img-fluid" :style="[icon, {left: '50%'}]" :src=icon2 alt="Plant Icon" v-if="icon2">
-            <img class="card-img img-fluid" :style="[icon, {top: tile_size/2 + dimensionUnit}]" :src=icon3 alt="Plant Icon" v-if="icon3">
-            <img class="card-img img-fluid" :style="[icon, {top: tile_size/2 + dimensionUnit, left: '50%'}]" :src=icon4 alt="Plant Icon" v-if="icon4">
+            <img class="card-img img-fluid" :style=icon :src="pictures[0]" alt="Plant Icon" v-if="pictures[0]">
+            <img class="card-img img-fluid" :style="[icon, {left: '50%'}]" :src="pictures[1]" alt="Plant Icon" v-if="pictures[1]">
+            <img class="card-img img-fluid" :style="[icon, {top: tile_size/2 + dimensionUnit}]" :src="pictures[2]" alt="Plant Icon" v-if="pictures[2]">
+            <img class="card-img img-fluid" :style="[icon, {top: tile_size/2 + dimensionUnit, left: '50%'}]" :src="pictures[3]" alt="Plant Icon" v-if="pictures[3]">
+
+            <input type="hidden" :name="'icons,' + grid_row + ',' + grid_column" :value='pictures.join("|")' />
         </div>
     </div>
 
@@ -20,15 +22,32 @@
             grid_row: Number,
             grid_column: Number,
             colour: String,
-            picture1: String,
-            picture2: String,
-            picture3: String,
-            picture4: String
+            pictures: {
+                type: Array,
+                validator: (prop) => prop.every(e => typeof e === 'string'),
+                default: function(){
+                    return []
+                },
+            }
         },
         methods:{
             mouseclick: function(){
                 if(this.$store.state.tile.colour != "icon"){
                     this.colour = this.$store.state.tile.colour;
+                } else {
+                    if (this.$store.state.tile.iconPosition.includes('1')) {
+                        this.pictures[0] = "http://localhost/Laravel/Gardeners-Diary/public/storage/images/" + this.$store.state.tile.icon.substring(6);
+                    }
+                    if (this.$store.state.tile.iconPosition.includes('2')) {
+                        this.pictures[1] = "http://localhost/Laravel/Gardeners-Diary/public/storage/images/" + this.$store.state.tile.icon.substring(6);
+                    }
+                    if (this.$store.state.tile.iconPosition.includes('3')) {
+                        this.pictures[2] = "http://localhost/Laravel/Gardeners-Diary/public/storage/images/" + this.$store.state.tile.icon.substring(6);
+                    }
+                    if (this.$store.state.tile.iconPosition.includes('4')) {
+                        this.pictures[3] = "http://localhost/Laravel/Gardeners-Diary/public/storage/images/" + this.$store.state.tile.icon.substring(6);
+                    }
+                    this.pictures.push();
                 }
             }
         },
@@ -52,38 +71,6 @@
                     return 'vw';
                 } else {
                     return 'vh';
-                }
-            },
-            icon1() {
-                if (this.picture == "http://localhost/Laravel/Gardeners-Diary/public/storage/images") {
-                    return "http://localhost/Laravel/Gardeners-Diary/public/Images/rose.png";
-                } else {
-                    return this.picture;
-                    // return "http://localhost/Laravel/Gardeners-Diary/public/Images/rose.png";
-                }
-            },
-            icon2() {
-                if (this.picture == "http://localhost/Laravel/Gardeners-Diary/public/storage/images") {
-                    return "http://localhost/Laravel/Gardeners-Diary/public/Images/rose.png";
-                } else {
-                    return this.picture;
-                    // return "http://localhost/Laravel/Gardeners-Diary/public/Images/rose.png";
-                }
-            },
-            icon3() {
-                if (this.picture == "http://localhost/Laravel/Gardeners-Diary/public/storage/images") {
-                    return "http://localhost/Laravel/Gardeners-Diary/public/Images/rose.png";
-                } else {
-                    return this.picture;
-                    // return "http://localhost/Laravel/Gardeners-Diary/public/Images/rose.png";
-                }
-            },
-            icon4() {
-                if (this.picture == "http://localhost/Laravel/Gardeners-Diary/public/storage/images") {
-                    return "http://localhost/Laravel/Gardeners-Diary/public/Images/rose.png";
-                } else {
-                    return this.picture;
-                    // return "http://localhost/Laravel/Gardeners-Diary/public/Images/rose.png";
                 }
             },
             icon() {

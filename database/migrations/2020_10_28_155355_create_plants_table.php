@@ -15,10 +15,12 @@ class CreatePlantsTable extends Migration
     {
         Schema::create('plants', function (Blueprint $table) {
             $table->id();
-            $table->string('plantname');
-            $table->integer('garden_id');
+            $table->string('plant_name');
             $table->integer('row');
             $table->integer('column');
+            $table->string('icon_location');
+            $table->integer('garden_id');
+            $table->integer('plant_icon_id');
             $table->timestamps();
         });
     }

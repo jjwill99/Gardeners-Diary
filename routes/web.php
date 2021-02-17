@@ -25,6 +25,7 @@ Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/garden', 'GardenController@index')->name('garden');
 // Route::post('/save', 'GardenController@save')->name('save');
 
+Route::resource('grid', 'GridController');
 Route::resource('garden', 'GardenController');
 Route::resource('plant', 'PlantController');
 Route::resource('customTile', 'CustomTileController');

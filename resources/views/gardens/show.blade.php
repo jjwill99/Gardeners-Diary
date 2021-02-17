@@ -27,7 +27,7 @@
 
 @section('content')
 <div>
-    <form method="POST" action="{{ action('GardenController@update', $garden->id) }}">
+    <form method="POST" action="{{ action('GridController@update', $garden->id) }}">
         {!! method_field('patch') !!}
         <input type="hidden" name="_token" value="{{ csrf_token() }}">
         
@@ -78,6 +78,10 @@
                             <?php
                             $row = $newRow;
                         }
+
+
+                        // $temp = $plants->where('row', '=', );
+
                         ?>
                         <garden-grid :garden_width="{{ $garden->width }}" :garden_length="{{ $garden->length }}" colour="{{ $tile['colour'] }}"
                             :grid_row="{{ $tile['row'] }}" :grid_column="{{ $tile['column'] }}"></garden-grid>

@@ -25,7 +25,10 @@ class GardenController extends Controller
         $userId = \Auth::user()->id;
         $garden = Garden::find($id);
         $customTiles = CustomTile::orderBy('id')->get()->where('user_id', '=', $userId);
-        return view('gardens.show', array('garden'=> $garden, 'customTiles'=>$customTiles));
+
+        $plants = Plant::orderBy('id')->get()->where('garden_id', '=', $garden->id);
+
+        return view('gardens.show', array('garden'=> $garden, 'customTiles'=>$customTiles, 'plants'=>$plants));
     }
 
     public function create(){

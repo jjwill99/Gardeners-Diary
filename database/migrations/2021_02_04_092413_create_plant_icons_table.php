@@ -15,8 +15,7 @@ class CreatePlantIconsTable extends Migration
     {
         Schema::create('plant_icons', function (Blueprint $table) {
             $table->id();
-            $table->integer('plant_id');
-            $table->string('icon');
+            $table->binary('icon');
             $table->timestamps();
         });
     }

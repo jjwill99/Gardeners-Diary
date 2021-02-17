@@ -7,7 +7,9 @@ export default new Vuex.Store({
  state: {
      tile: {
          selected: 'Grass',
-         colour: 'green'
+         colour: 'green',
+         icon: '',
+         iconPosition: ''
      }
  },
  getters: {},
@@ -17,6 +19,12 @@ export default new Vuex.Store({
      },
      changeColour (state, payload) {
          state.tile.colour = payload
+     },
+     changeIcon (state, payload) {
+         state.tile.icon = payload
+     },
+     changeIconPosition (state, payload) {
+         state.tile.iconPosition = payload
      }
  },
  actions: {}

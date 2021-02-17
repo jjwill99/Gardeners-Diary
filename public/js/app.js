@@ -1955,6 +1955,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
     garden_width: Number,
@@ -1962,15 +1964,40 @@ __webpack_require__.r(__webpack_exports__);
     grid_row: Number,
     grid_column: Number,
     colour: String,
-    picture1: String,
-    picture2: String,
-    picture3: String,
-    picture4: String
+    pictures: {
+      type: Array,
+      validator: function validator(prop) {
+        return prop.every(function (e) {
+          return typeof e === 'string';
+        });
+      },
+      "default": function _default() {
+        return [];
+      }
+    }
   },
   methods: {
     mouseclick: function mouseclick() {
       if (this.$store.state.tile.colour != "icon") {
         this.colour = this.$store.state.tile.colour;
+      } else {
+        if (this.$store.state.tile.iconPosition.includes('1')) {
+          this.pictures[0] = "http://localhost/Laravel/Gardeners-Diary/public/storage/images/" + this.$store.state.tile.icon.substring(6);
+        }
+
+        if (this.$store.state.tile.iconPosition.includes('2')) {
+          this.pictures[1] = "http://localhost/Laravel/Gardeners-Diary/public/storage/images/" + this.$store.state.tile.icon.substring(6);
+        }
+
+        if (this.$store.state.tile.iconPosition.includes('3')) {
+          this.pictures[2] = "http://localhost/Laravel/Gardeners-Diary/public/storage/images/" + this.$store.state.tile.icon.substring(6);
+        }
+
+        if (this.$store.state.tile.iconPosition.includes('4')) {
+          this.pictures[3] = "http://localhost/Laravel/Gardeners-Diary/public/storage/images/" + this.$store.state.tile.icon.substring(6);
+        }
+
+        this.pictures.push();
       }
     }
   },
@@ -1994,34 +2021,6 @@ __webpack_require__.r(__webpack_exports__);
         return 'vw';
       } else {
         return 'vh';
-      }
-    },
-    icon1: function icon1() {
-      if (this.picture == "http://localhost/Laravel/Gardeners-Diary/public/storage/images") {
-        return "http://localhost/Laravel/Gardeners-Diary/public/Images/rose.png";
-      } else {
-        return this.picture; // return "http://localhost/Laravel/Gardeners-Diary/public/Images/rose.png";
-      }
-    },
-    icon2: function icon2() {
-      if (this.picture == "http://localhost/Laravel/Gardeners-Diary/public/storage/images") {
-        return "http://localhost/Laravel/Gardeners-Diary/public/Images/rose.png";
-      } else {
-        return this.picture; // return "http://localhost/Laravel/Gardeners-Diary/public/Images/rose.png";
-      }
-    },
-    icon3: function icon3() {
-      if (this.picture == "http://localhost/Laravel/Gardeners-Diary/public/storage/images") {
-        return "http://localhost/Laravel/Gardeners-Diary/public/Images/rose.png";
-      } else {
-        return this.picture; // return "http://localhost/Laravel/Gardeners-Diary/public/Images/rose.png";
-      }
-    },
-    icon4: function icon4() {
-      if (this.picture == "http://localhost/Laravel/Gardeners-Diary/public/storage/images") {
-        return "http://localhost/Laravel/Gardeners-Diary/public/Images/rose.png";
-      } else {
-        return this.picture; // return "http://localhost/Laravel/Gardeners-Diary/public/Images/rose.png";
       }
     },
     icon: function icon() {
@@ -2134,6 +2133,11 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
     tile_name: String,
@@ -2156,6 +2160,10 @@ __webpack_require__.r(__webpack_exports__);
     csrf: {
       type: String,
       "default": ""
+    },
+    iconPosition: {
+      type: String,
+      "default": "1234"
     }
   },
   computed: {
@@ -2172,16 +2180,39 @@ __webpack_require__.r(__webpack_exports__);
       } else {
         return "http://localhost/Laravel/Gardeners-Diary/public/Images/" + this.icon + ".png";
       }
+    },
+    iconStyle: function iconStyle() {
+      return {
+        position: 'absolute',
+        width: '3.5vh',
+        height: '3.5vh'
+      };
     }
   },
   methods: {
     mouseclick: function mouseclick() {
       this.$store.commit("changeSelected", this.tile_name);
       this.$store.commit("changeColour", this.colour);
+      this.$store.commit("changeIcon", "colour");
     },
     iconclick: function iconclick() {
-      this.$store.commit("changeSelected", this.tile_name);
-      this.$store.commit("changeColour", "icon");
+      var x = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : "0";
+
+      if (this.$store.state.tile.selected == this.tile_name) {
+        if (this.iconPosition.includes(x)) {
+          this.iconPosition = this.iconPosition.replace(x, '0');
+        } else if (this.iconPosition == "0000") {
+          this.iconPosition += '0';
+        } else if (this.iconPosition == "00000" && x == "reset") {
+          this.iconPosition = "1234";
+        }
+      } else {
+        this.$store.commit("changeSelected", this.tile_name);
+        this.$store.commit("changeColour", "icon");
+        this.$store.commit("changeIcon", this.icon);
+      }
+
+      this.$store.commit("changeIconPosition", this.iconPosition);
     }
   }
 });
@@ -37843,40 +37874,48 @@ var render = function() {
       }),
       _vm._v(" "),
       _c("div", { staticStyle: { position: "relative" } }, [
-        _vm.icon1
+        _vm.pictures[0]
           ? _c("img", {
               staticClass: "card-img img-fluid",
               style: _vm.icon,
-              attrs: { src: _vm.icon1, alt: "Plant Icon" }
+              attrs: { src: _vm.pictures[0], alt: "Plant Icon" }
             })
           : _vm._e(),
         _vm._v(" "),
-        _vm.icon2
+        _vm.pictures[1]
           ? _c("img", {
               staticClass: "card-img img-fluid",
               style: [_vm.icon, { left: "50%" }],
-              attrs: { src: _vm.icon2, alt: "Plant Icon" }
+              attrs: { src: _vm.pictures[1], alt: "Plant Icon" }
             })
           : _vm._e(),
         _vm._v(" "),
-        _vm.icon3
+        _vm.pictures[2]
           ? _c("img", {
               staticClass: "card-img img-fluid",
               style: [_vm.icon, { top: _vm.tile_size / 2 + _vm.dimensionUnit }],
-              attrs: { src: _vm.icon3, alt: "Plant Icon" }
+              attrs: { src: _vm.pictures[2], alt: "Plant Icon" }
             })
           : _vm._e(),
         _vm._v(" "),
-        _vm.icon4
+        _vm.pictures[3]
           ? _c("img", {
               staticClass: "card-img img-fluid",
               style: [
                 _vm.icon,
                 { top: _vm.tile_size / 2 + _vm.dimensionUnit, left: "50%" }
               ],
-              attrs: { src: _vm.icon4, alt: "Plant Icon" }
+              attrs: { src: _vm.pictures[3], alt: "Plant Icon" }
             })
-          : _vm._e()
+          : _vm._e(),
+        _vm._v(" "),
+        _c("input", {
+          attrs: {
+            type: "hidden",
+            name: "icons," + _vm.grid_row + "," + _vm.grid_column
+          },
+          domProps: { value: _vm.pictures.join("|") }
+        })
       ])
     ]
   )
@@ -38018,13 +38057,67 @@ var render = function() {
                 backgroundColor: _vm.colour,
                 float: "left"
               },
-              on: { click: _vm.iconclick }
+              on: {
+                click: function($event) {
+                  _vm.iconclick
+                  _vm.iconclick("reset")
+                }
+              }
             },
             [
-              _c("img", {
-                staticClass: "card-img img-fluid",
-                attrs: { src: _vm.image, alt: "Plant Icon" }
-              })
+              _c("div", { staticStyle: { position: "relative" } }, [
+                _vm.iconPosition.includes("1")
+                  ? _c("img", {
+                      staticClass: "card-img img-fluid",
+                      style: _vm.iconStyle,
+                      attrs: { src: _vm.image, alt: "Plant Icon" },
+                      on: {
+                        click: function($event) {
+                          return _vm.iconclick("1")
+                        }
+                      }
+                    })
+                  : _vm._e(),
+                _vm._v(" "),
+                _vm.iconPosition.includes("2")
+                  ? _c("img", {
+                      staticClass: "card-img img-fluid",
+                      style: [_vm.iconStyle, { left: "50%" }],
+                      attrs: { src: _vm.image, alt: "Plant Icon" },
+                      on: {
+                        click: function($event) {
+                          return _vm.iconclick("2")
+                        }
+                      }
+                    })
+                  : _vm._e(),
+                _vm._v(" "),
+                _vm.iconPosition.includes("3")
+                  ? _c("img", {
+                      staticClass: "card-img img-fluid",
+                      style: [_vm.iconStyle, { top: "3.5vh" }],
+                      attrs: { src: _vm.image, alt: "Plant Icon" },
+                      on: {
+                        click: function($event) {
+                          return _vm.iconclick("3")
+                        }
+                      }
+                    })
+                  : _vm._e(),
+                _vm._v(" "),
+                _vm.iconPosition.includes("4")
+                  ? _c("img", {
+                      staticClass: "card-img img-fluid",
+                      style: [_vm.iconStyle, { top: "3.5vh", left: "50%" }],
+                      attrs: { src: _vm.image, alt: "Plant Icon" },
+                      on: {
+                        click: function($event) {
+                          return _vm.iconclick("4")
+                        }
+                      }
+                    })
+                  : _vm._e()
+              ])
             ]
           ),
           _vm._v(" "),
@@ -51889,7 +51982,9 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1__
   state: {
     tile: {
       selected: 'Grass',
-      colour: 'green'
+      colour: 'green',
+      icon: '',
+      iconPosition: ''
     }
   },
   getters: {},
@@ -51899,6 +51994,12 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1__
     },
     changeColour: function changeColour(state, payload) {
       state.tile.colour = payload;
+    },
+    changeIcon: function changeIcon(state, payload) {
+      state.tile.icon = payload;
+    },
+    changeIconPosition: function changeIconPosition(state, payload) {
+      state.tile.iconPosition = payload;
     }
   },
   actions: {}
