@@ -1,14 +1,14 @@
 <template>
     
-    <div class="border border-dark" :style="{ width: tile_size + dimensionUnit, height: tile_size + dimensionUnit, backgroundColor: colour}" v-on:dragover="mouseclick" v-on:click="mouseclick">
-        <input type="hidden" :name="grid_row + ',' + grid_column" :value="colour" />
+    <div class="border border-dark" :style="{ width: tile_size + dimensionUnit, height: tile_size + dimensionUnit, backgroundColor: grid_colour}" v-on:dragover="mouseclick" v-on:click="mouseclick">
+        <input type="hidden" :name="grid_row + ',' + grid_column" :value="grid_colour" />
         <div style="position: relative;">
-            <img class="card-img img-fluid" :style=icon :src="pictures[0]" alt="Plant Icon" v-if="pictures[0]">
-            <img class="card-img img-fluid" :style="[icon, {left: '50%'}]" :src="pictures[1]" alt="Plant Icon" v-if="pictures[1]">
-            <img class="card-img img-fluid" :style="[icon, {top: tile_size/2 + dimensionUnit}]" :src="pictures[2]" alt="Plant Icon" v-if="pictures[2]">
-            <img class="card-img img-fluid" :style="[icon, {top: tile_size/2 + dimensionUnit, left: '50%'}]" :src="pictures[3]" alt="Plant Icon" v-if="pictures[3]">
+            <img class="card-img img-fluid" :style=icon :src="icons[0]" alt="Plant Icon" v-if="icons[0]">
+            <img class="card-img img-fluid" :style="[icon, {left: '50%'}]" :src="icons[1]" alt="Plant Icon" v-if="icons[1]">
+            <img class="card-img img-fluid" :style="[icon, {top: tile_size/2 + dimensionUnit}]" :src="icons[2]" alt="Plant Icon" v-if="icons[2]">
+            <img class="card-img img-fluid" :style="[icon, {top: tile_size/2 + dimensionUnit, left: '50%'}]" :src="icons[3]" alt="Plant Icon" v-if="icons[3]">
 
-            <input type="hidden" :name="'icons,' + grid_row + ',' + grid_column" :value='pictures.join("|")' />
+            <input type="hidden" :name="'icons,' + grid_row + ',' + grid_column" :value='icons.join("|")' />
         </div>
     </div>
 
@@ -30,24 +30,30 @@
                 },
             }
         },
+        data: function(){
+            return {
+                icons: this.pictures,
+                grid_colour: this.colour
+            }
+        },
         methods:{
             mouseclick: function(){
                 if(this.$store.state.tile.colour != "icon"){
-                    this.colour = this.$store.state.tile.colour;
+                    this.grid_colour = this.$store.state.tile.colour;
                 } else {
                     if (this.$store.state.tile.iconPosition.includes('1')) {
-                        this.pictures[0] = "http://localhost/Laravel/Gardeners-Diary/public/storage/images/" + this.$store.state.tile.icon.substring(6);
+                        this.icons[0] = "http://localhost/Laravel/Gardeners-Diary/public/storage/images/" + this.$store.state.tile.icon.substring(6);
                     }
                     if (this.$store.state.tile.iconPosition.includes('2')) {
-                        this.pictures[1] = "http://localhost/Laravel/Gardeners-Diary/public/storage/images/" + this.$store.state.tile.icon.substring(6);
+                        this.icons[1] = "http://localhost/Laravel/Gardeners-Diary/public/storage/images/" + this.$store.state.tile.icon.substring(6);
                     }
                     if (this.$store.state.tile.iconPosition.includes('3')) {
-                        this.pictures[2] = "http://localhost/Laravel/Gardeners-Diary/public/storage/images/" + this.$store.state.tile.icon.substring(6);
+                        this.icons[2] = "http://localhost/Laravel/Gardeners-Diary/public/storage/images/" + this.$store.state.tile.icon.substring(6);
                     }
                     if (this.$store.state.tile.iconPosition.includes('4')) {
-                        this.pictures[3] = "http://localhost/Laravel/Gardeners-Diary/public/storage/images/" + this.$store.state.tile.icon.substring(6);
+                        this.icons[3] = "http://localhost/Laravel/Gardeners-Diary/public/storage/images/" + this.$store.state.tile.icon.substring(6);
                     }
-                    this.pictures.push();
+                    this.icons.push();
                 }
             }
         },

@@ -40,12 +40,12 @@ class GridController extends Controller
                     $icons =  explode("|", $request->input('icons,'.$i.",".$j));
                     $numIcons = array();
 
-                    if ($icons != [""]) {
+                    if ($icons != ["", "", "", ""]) {
 
-                        echo("<script>
-                                if(console.debug!='undefined'){
-                                    console.log('PHP: ".json_encode("test")."');
-                                }</script>");
+                        // echo("<script>
+                        // if(console.debug!='undefined'){
+                        //     console.log('PHP: ".json_encode($icons)."');
+                        // }</script>");
 
                         for ($n = 1; $n <= count($icons); $n++) {
                             $icon = $icons[$n-1];

@@ -10,10 +10,10 @@
     <div class="border-top border-dark" :style="{height:'9vh', padding:'1vh', backgroundColor:background}" v-else>
         <div class="border border-dark" :style="{width:'7vh', height:'7vh', backgroundColor: colour, float:'left'}" v-on:click="iconclick; iconclick('reset')">
             <div style="position: relative;">
-                <img class="card-img img-fluid" :style=iconStyle                                    :src=image alt="Plant Icon" v-on:click="iconclick('1')" v-if="iconPosition.includes('1')">
-                <img class="card-img img-fluid" :style="[iconStyle, {left: '50%'}]"                 :src=image alt="Plant Icon" v-on:click="iconclick('2')" v-if="iconPosition.includes('2')">
-                <img class="card-img img-fluid" :style="[iconStyle, {top: '3.5vh'}]"                :src=image alt="Plant Icon" v-on:click="iconclick('3')" v-if="iconPosition.includes('3')">
-                <img class="card-img img-fluid" :style="[iconStyle, {top: '3.5vh', left: '50%'}]"   :src=image alt="Plant Icon" v-on:click="iconclick('4')" v-if="iconPosition.includes('4')">
+                <img class="card-img img-fluid" :style=iconStyle                                    :src=image alt="Plant Icon" v-on:click="iconclick('1')" v-if="icon_location.includes('1')">
+                <img class="card-img img-fluid" :style="[iconStyle, {left: '50%'}]"                 :src=image alt="Plant Icon" v-on:click="iconclick('2')" v-if="icon_location.includes('2')">
+                <img class="card-img img-fluid" :style="[iconStyle, {top: '3.5vh'}]"                :src=image alt="Plant Icon" v-on:click="iconclick('3')" v-if="icon_location.includes('3')">
+                <img class="card-img img-fluid" :style="[iconStyle, {top: '3.5vh', left: '50%'}]"   :src=image alt="Plant Icon" v-on:click="iconclick('4')" v-if="icon_location.includes('4')">
             </div>
         </div>
         
@@ -86,6 +86,11 @@
                 }
             }
         },
+        data: function(){
+            return {
+                icon_location: this.iconPosition
+            }
+        },
         methods:{
             mouseclick: function(){
                 this.$store.commit("changeSelected", this.tile_name);
@@ -94,19 +99,19 @@
             },
             iconclick: function(x = "0"){
                 if (this.$store.state.tile.selected == this.tile_name) {
-                    if (this.iconPosition.includes(x)) {
-                        this.iconPosition = this.iconPosition.replace(x, '0');
-                    } else if (this.iconPosition == "0000") {
-                        this.iconPosition += '0';
-                    } else if(this.iconPosition == "00000" && x == "reset"){
-                        this.iconPosition = "1234";
+                    if (this.icon_location.includes(x)) {
+                        this.icon_location = this.icon_location.replace(x, '0');
+                    } else if (this.icon_location == "0000") {
+                        this.icon_location += '0';
+                    } else if(this.icon_location == "00000" && x == "reset"){
+                        this.icon_location = "1234";
                     }
                 } else {
                     this.$store.commit("changeSelected", this.tile_name);
                     this.$store.commit("changeColour", "icon");
                     this.$store.commit("changeIcon", this.icon);
                 }
-                this.$store.commit("changeIconPosition", this.iconPosition);
+                this.$store.commit("changeIconPosition", this.icon_location);
             }
         }
     }

@@ -26,9 +26,16 @@ class GardenController extends Controller
         $garden = Garden::find($id);
         $customTiles = CustomTile::orderBy('id')->get()->where('user_id', '=', $userId);
 
-        $plants = Plant::orderBy('id')->get()->where('garden_id', '=', $garden->id);
+        $plantIcons = Plant::join('plant_icons', 'plants.plant_icon_id', '=', 'plant_icons.id')
+            ->select('plant_icons.icon', 'plants.row', 'plants.column', 'plants.icon_location')
+            ->selectRaw('(plants.icon_location LIKE "%1%") AS one')
+            ->selectRaw('(plants.icon_location LIKE "%2%") AS two')
+            ->selectRaw('(plants.icon_location LIKE "%3%") AS three')
+            ->selectRaw('(plants.icon_location LIKE "%4%") AS four')
+            ->where('garden_id', '=', $garden->id)
+            ->get();
 
-        return view('gardens.show', array('garden'=> $garden, 'customTiles'=>$customTiles, 'plants'=>$plants));
+        return view('gardens.show', array('garden'=> $garden, 'customTiles'=>$customTiles, 'plantIcons'=>$plantIcons));
     }
 
     public function create(){

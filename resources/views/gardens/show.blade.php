@@ -80,11 +80,31 @@
                         }
 
 
-                        // $temp = $plants->where('row', '=', );
+                        $pictures = array('', '', '', '');
+
+                        $temp = $plantIcons->where('row', '=', $tile['row'])
+                                    ->where('column', '=', $tile['column']);
+
+                        foreach ($temp as $icon) {
+                            if ($icon->one == 1) {
+                                $pictures[0] = $icon->icon;
+                            }
+                            if ($icon->two == 1) {
+                                $pictures[1] = $icon->icon;
+                            }
+                            if ($icon->three == 1) {
+                                $pictures[2] = $icon->icon;
+                            }
+                            if ($icon->four == 1) {
+                                $pictures[3] = $icon->icon;
+                            }
+                        }
+
+                        $pictures = '["' . implode('","', $pictures) . '"]';
 
                         ?>
                         <garden-grid :garden_width="{{ $garden->width }}" :garden_length="{{ $garden->length }}" colour="{{ $tile['colour'] }}"
-                            :grid_row="{{ $tile['row'] }}" :grid_column="{{ $tile['column'] }}"></garden-grid>
+                            :grid_row="{{ $tile['row'] }}" :grid_column="{{ $tile['column'] }}" v-bind:pictures="{{ $pictures }}"></garden-grid>
                         <?php
                     }
                 ?>
