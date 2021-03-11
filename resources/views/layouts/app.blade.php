@@ -35,7 +35,7 @@
                     <ul class="navbar-nav mr-auto">
                         @if(Auth::user())
                             <li class="nav-item">
-                                <a class="nav-link" href="{{ url('garden') }}">My Garden</a>
+                                <a class="nav-link" href="{{ url('gardens') }}">My Garden</a>
                             </li>
                         @endif
                     </ul>

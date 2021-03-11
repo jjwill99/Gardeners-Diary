@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateCustomTilesTable extends Migration
+class CreatePlantLocationsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,12 @@ class CreateCustomTilesTable extends Migration
      */
     public function up()
     {
-        Schema::create('custom_tiles', function (Blueprint $table) {
+        Schema::create('plant_locations', function (Blueprint $table) {
             $table->id();
-            $table->integer('user_id');
-            $table->string('tile_name');
-            $table->string('icon');
+            $table->integer('row');
+            $table->integer('column');
+            $table->string('icon_location');
+            $table->integer('plant_id');
             $table->timestamps();
         });
     }
@@ -29,6 +30,6 @@ class CreateCustomTilesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('custom_tiles');
+        Schema::dropIfExists('plant_locations');
     }
 }

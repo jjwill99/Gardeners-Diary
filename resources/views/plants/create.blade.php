@@ -20,7 +20,7 @@
         </div><br /> @endif
         <!-- define the form -->
         <div class="card-body">
-          <form class="form-horizontal" method="POST" action="{{ action('CustomTileController@store') }}" enctype="multipart/form-data">
+          <form class="form-horizontal" method="POST" action="{{ action('PlantController@store') }}" enctype="multipart/form-data">
           <!-- @csrf -->
           <input type="hidden" name="_token" value="{{ csrf_token() }}">
           <div class="col-md-8">

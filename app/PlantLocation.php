@@ -4,9 +4,9 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class PlantIcon extends Model
+class PlantLocation extends Model
 {
     protected $fillable = [
-        'plant_id', 'icon'
+        'row', 'column', 'icon_location', 'plant_id'
     ];
 }

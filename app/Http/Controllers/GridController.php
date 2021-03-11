@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Garden;
 use App\Plant;
-use App\PlantIcon;
+use App\PlantLocation;
 
 class GridController extends Controller
 {
@@ -63,10 +63,13 @@ class GridController extends Controller
                         }
 
                         foreach ($numIcons as $icon => $position) {
-                            $plant = Plant::where('plant_name', '=', 'test')
-                                ->where('row', '=', $i)
-                                ->where('column', '=', $j)
-                                ->where('garden_id', '=', $id)
+                            $icon = substr($icon, strrpos($icon, '/') + 1);
+
+                            $plant = Plant::join('plant_locations', 'plants.id', '=', 'plant_locations.plant_id')
+                                ->where('plants.plant_name', '=', 'test')
+                                ->where('plant_locations.row', '=', $i)
+                                ->where('plant_locations.column', '=', $j)
+                                ->where('plants.garden_id', '=', $id)
                                 ->first();
 
                             if ($plant === null) {
@@ -92,34 +95,33 @@ class GridController extends Controller
 
             return back()->with('success', ' Garden has been updated');
         } else {
-            return view('customTiles.create');
+            return view('plants.create');
         }
     }
 
     public function store(Request $request, $gardenId, $icon, $row, $column, $position){
         //Create plantIcons record if it does not exist
-        $plantIcon = PlantIcon::where('icon', '=', $icon)->first();
+        $plant = Plant::where('icon', '=', $icon)->first();
 
-        if ($plantIcon === null) {
-            $plantIcon = new PlantIcon();
-            $plantIcon->icon = $icon;
-        
-            $plantIcon->save();
-        }
+        echo $icon;
 
-        // console.log("test");
+        // if ($plant === null) {
+        //     //Create plants record
+        //     $plant = new Plant();
+        //     $plant->plant_name = "test";
+        //     $plant->icon = $icon;
+        //     $plant->garden_id = $gardenId;
 
+        //     $plant->save();
+        // }
 
-        //Create plants record
-        $plant = new Plant();
-        $plant->plant_name = "test";
-        $plant->row = $row;
-        $plant->column = $column;
-        $plant->icon_location = $position;
-        $plant->garden_id = $gardenId;
-        $plant->plant_icon_id = $plantIcon->id;
-
-        $plant->save();
+        $plantLocation = new PlantLocation();
+        $plantLocation->row = $row;
+        $plantLocation->column = $column;
+        $plantLocation->icon_location = $position;
+        $plantLocation->plant_id = $plant->id;
+    
+        $plantLocation->save();
     }
 
 }

@@ -27,7 +27,7 @@
 
 @section('content')
 <div>
-    <form method="POST" action="{{ action('GardenController@edit', $garden->id) }}">
+    <form method="POST" action="{{ action('GridController@update', $garden->id) }}">
         {!! method_field('patch') !!}
         <input type="hidden" name="_token" value="{{ csrf_token() }}">
         
@@ -47,8 +47,8 @@
 
             ?>
             <center>
-                <!-- <input type="submit" class="btn btn-primary rounded-0" style="width: 100%;" value="Edit Garden" /> -->
-                <a class="btn btn-primary" style="width: 100%" href="{{action('GardenController@edit')}}">Edit Garden</a>
+                <input type="submit" class="btn btn-primary rounded-0" style="width: 49%;" name="action" value="Add Plant" />
+                <input type="submit" class="btn btn-primary rounded-0" style="width: 49%;" name="action" value="Save Layout" onclick="noConfirm()" />
             </center>
         </div>
     
@@ -105,7 +105,7 @@
                         $pictures = '["' . implode('","', $pictures) . '"]';
 
                         ?>
-                        <garden-grid :garden_width="{{ $garden->width }}" :garden_length="{{ $garden->length }}" colour="{{ $tile['colour'] }}"
+                        <garden-grid page_type="edit" :garden_width="{{ $garden->width }}" :garden_length="{{ $garden->length }}" colour="{{ $tile['colour'] }}"
                             :grid_row="{{ $tile['row'] }}" :grid_column="{{ $tile['column'] }}" v-bind:pictures="{{ $pictures }}"></garden-grid>
                         <?php
                     }
@@ -117,3 +117,16 @@
 </div>
 
 @endsection
+
+
+<script>
+
+window.onbeforeunload = function(){
+        return "Adding a new plant option will undo any unsaved changes.";
+    };
+
+function noConfirm(){
+    window.onbeforeunload = null;
+};
+
+</script>

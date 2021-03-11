@@ -4,10 +4,13 @@
  * building robust, powerful web applications using Vue and Laravel.
  */
 import store from "./store";
+import VueRouter from "vue-router";
 
 require('./bootstrap');
 
 window.Vue = require('vue');
+
+window.Vue.use(VueRouter);
 
 /**
  * The following block of code may be used to automatically register your
@@ -31,13 +34,59 @@ Vue.component('garden-grid', GardenGrid);
 import GardenTile from './components/GardenTile.vue';
 Vue.component('garden-tile', GardenTile);
 
+import GardensComponent from './components/GardensComponent.vue';
+Vue.component('gardens', GardensComponent);
+
+
+import CreateGarden from './components/CreateGardenComponent';
+Vue.component('garden-form', CreateGarden);
+
+import CreatePlant from './components/CreatePlantComponent';
+Vue.component('plant-form', CreatePlant);
+
+import ManageActivities from './components/ManageActivitiesComponent'
+Vue.component('manage-activities', ManageActivities);
+
+import CreateActivity from './components/CreateActivityComponent';
+Vue.component('create-activity', CreateActivity);
+
+import EditActivity from './components/EditActivityComponent';
+Vue.component('edit-activity', EditActivity);
+
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
+import Gardens from './components/GardensComponent';
+import Garden from './components/GardenComponent';
+import EditGarden from './components/EditGardenComponent';
+import Vue from "vue";
+
+const router = new VueRouter({
+    mode: 'history',
+    routes: [
+        {
+            path: '/gardens',
+            name: 'gardens',
+            component: Gardens
+        },
+        {
+            path: '/garden',
+            name: 'garden',
+            component: Garden
+        },
+        {
+            path: '/editgarden',
+            name: 'edit',
+            component: EditGarden
+        },
+    ]
+});
+
 const app = new Vue({
     store,
     el: '#app',
+    router,
 });

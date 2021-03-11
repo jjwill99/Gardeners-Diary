@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreatePlantIconsTable extends Migration
+class CreatePlantActivitiesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,14 @@ class CreatePlantIconsTable extends Migration
      */
     public function up()
     {
-        Schema::create('plant_icons', function (Blueprint $table) {
+        Schema::create('plant_activities', function (Blueprint $table) {
             $table->id();
-            $table->binary('icon');
+            $table->string('name');
+            $table->string('description');
+            $table->timestamp('time');
+            $table->boolean('completed');
+            $table->string('frequency');
+            $table->integer('plant_id');
             $table->timestamps();
         });
     }
@@ -27,6 +32,6 @@ class CreatePlantIconsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('plant_icons');
+        Schema::dropIfExists('plant_activities');
     }
 }
