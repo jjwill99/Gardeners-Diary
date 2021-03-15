@@ -27,7 +27,7 @@
                 <div class="row justify-content-center">
                     <div v-bind:key="cell.index" v-for="cell in row">
                         <div class="border border-dark" :style="{ width: tile_size + dimensionUnit, height: tile_size + dimensionUnit, backgroundColor: cell.colour}"
-                          v-on:mousedown="mousedown(cell.row, cell.column)" v-on:mousemove="updateCell(cell.row, cell.column)" v-on:mouseup="mouseup()">
+                          @mousedown="mousedown(cell.row, cell.column)" @mousemove="updateCell(cell.row, cell.column)" @mouseup="mouseup()">
                             <div style="position: relative;">
                                 <div v-bind:key="location.index" v-for="location in locationResults">
                                     <img class="card-img img-fluid" :style=icon :src="'./storage/images/' + location.icon" alt="Plant Icon"
@@ -49,8 +49,8 @@
     </div>
 </template>
 
-<script>
-import GardenGrid from './GardenGrid.vue';
+<script> //Vue Mixin?
+import GardenGrid from './GardenGrid.vue'; //Not need?
 export default {
   components: { GardenGrid },
     data: function(){

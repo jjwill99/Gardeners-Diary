@@ -26,10 +26,13 @@ Route::post('/addGarden', 'GardenController@store');
 //Garden Page
 Route::get('/getGarden', 'GardenController@getGarden');
 Route::get('/getActivities', 'PlantActivityController@getActivities');
+Route::get('/getHistories', 'GardenHistoryController@getHistories');
 Route::post('/addActivity', 'PlantActivityController@store');
 Route::post('/completeActivity', 'PlantActivityController@complete');
 Route::post('/updateActivity', 'PlantActivityController@update');
 Route::post('/deleteActivity', 'PlantActivityController@destroy');
+Route::post('/storeHistory', 'GardenHistoryController@store');
+Route::post('/deleteHistory', 'GardenHistoryController@destroy');
 
 //Edit Garden Page
 Route::post('/updateGarden', 'GardenController@update');
@@ -37,3 +40,8 @@ Route::post('/addPlant', 'PlantController@store');
 Route::get('/getPlants', 'PlantController@getPlants');
 Route::get('/getPlantLocations', 'PlantController@getLocations');
 Route::post('/deletePlant', 'PlantController@destroy');
+
+//Garden History Page
+Route::get('/getGardenHistory', 'GardenHistoryController@getGarden');
+Route::get('/getPlantHistory', 'GardenHistoryController@getPlants');
+Route::get('/getPlantLocationHistory', 'GardenHistoryController@getLocations');

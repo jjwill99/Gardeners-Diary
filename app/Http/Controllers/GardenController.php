@@ -14,13 +14,6 @@ class GardenController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-    // public function index()
-    // {
-    //     $userId = \Auth::user()->id;
-    //     $gardensQuery = Garden::orderBy('id')->get()->where('user_id', '=', $userId);
-    //     return view('gardens.index', array('gardens'=>$gardensQuery));
-    // }
-
     public function index() {
         $userId = \Auth::user()->id;
         $gardens = Garden::where('user_id', '=', $userId)
@@ -52,33 +45,6 @@ class GardenController extends Controller
     public function create(){
         return view('gardens.create');
     }
-
-    // public function update(Request $request, $id){
-    //     if ($request->input('action') == 'Save Layout') {
-    //         $garden = Garden::find($id);
-    //         $row = $garden->length - 1;
-    //         $column = $garden->width - 1;
-
-    //         //Create JSON
-    //         $json = '["';
-
-    //         //Loop through form inputs
-    //         for ($i=0; $i <= $row; $i++) { 
-    //             for ($j=0; $j <= $column; $j++) { 
-    //                 $json .= '{\\"row\\":' . $i . ',\\"column\\":' . $j . ',\\"colour\\":\\"' . $request->input($i.",".$j) . '\\"},';
-    //             }
-    //         }
-    //         $json = rtrim($json, ",");
-    //         $json .= '"]';
-            
-    //         $garden->grid = $json;
-    //         $garden->save();
-            
-    //         return back()->with('success', ' Garden has been updated');
-    //     } else {
-    //         return view('plants.create');
-    //     }
-    // }
 
     public function update(Request $request){
         $gardenId = $request->input('gardenId');
@@ -203,21 +169,18 @@ class GardenController extends Controller
 
     public function destroy(Request $request)
     {
-        // echo("<script>
-        // if(console.debug!='undefined'){
-        //     console.log('ID: ".json_encode($id)."');
-        // }</script>");
-
-        // $test = this.$route.query.id;
-        // echo $test;
-
         $id = $request->input('id');
 
     	$garden = Garden::find($id);
     	$garden->delete();
 
-        $plants = Plant::where("garden_id", "=", $id)->get();
+        $plants = Plant::where("garden_id", $id)->get();
         foreach ($plants as $plant) {
+            $locations = PlantLocation::where('plant_id', $plant->id)->get();
+            foreach ($locations as $location) {
+                $location->delete();
+            }
+
             $plant->delete();
         }
         

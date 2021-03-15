@@ -23,7 +23,7 @@ window.Vue.use(VueRouter);
 // const files = require.context('./', true, /\.vue$/i)
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
 
-Vue.component('example-component', require('./components/ExampleComponent.vue').default);
+// Vue.component('example-component', require('./components/ExampleComponent.vue').default);
 
 import GardenItem from './components/GardenItem.vue';
 Vue.component('garden-item', GardenItem);
@@ -53,6 +53,12 @@ Vue.component('create-activity', CreateActivity);
 import EditActivity from './components/EditActivityComponent';
 Vue.component('edit-activity', EditActivity);
 
+import CreateHistory from './components/CreateHistoryComponent';
+Vue.component('create-history', CreateHistory);
+
+import ManageHistory from './components/ManageHistoryComponent';
+Vue.component('manage-history', ManageHistory);
+
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
@@ -62,6 +68,7 @@ Vue.component('edit-activity', EditActivity);
 import Gardens from './components/GardensComponent';
 import Garden from './components/GardenComponent';
 import EditGarden from './components/EditGardenComponent';
+import GardenHistory from './components/ViewHistoryComponent';
 import Vue from "vue";
 
 const router = new VueRouter({
@@ -75,13 +82,21 @@ const router = new VueRouter({
         {
             path: '/garden',
             name: 'garden',
-            component: Garden
+            component: Garden,
+            meta: {
+                requiresAuth: true
+            }
         },
         {
             path: '/editgarden',
             name: 'edit',
             component: EditGarden
         },
+        {
+            path: '/gardenHistory',
+            name: 'gardenHistory',
+            component: GardenHistory
+        },        
     ]
 });
 

@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateGardenHistoriesTable extends Migration
+class CreatePlantHistoriesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,14 +13,11 @@ class CreateGardenHistoriesTable extends Migration
      */
     public function up()
     {
-        Schema::create('garden_histories', function (Blueprint $table) {
+        Schema::create('plant_histories', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->integer('width');
-            $table->integer('length');
-            $table->json('grid');
-            $table->timestamp('date');
-            $table->integer('garden_id');
+            $table->string('plant_name');
+            $table->binary('icon');
+            $table->integer('history_id');
             $table->timestamps();
         });
     }
@@ -32,6 +29,6 @@ class CreateGardenHistoriesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('garden_histories');
+        Schema::dropIfExists('plant_histories');
     }
 }

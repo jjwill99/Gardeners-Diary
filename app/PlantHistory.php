@@ -4,9 +4,9 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class GardenHistory extends Model
+class PlantHistory extends Model
 {
     protected $fillable = [
-        'name', 'width', 'length', 'grid', 'date', 'garden_id'
+        'plant_name', 'icon', 'history_id'
     ];
 }

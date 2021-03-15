@@ -26,7 +26,7 @@
                                         <button class="btn btn-primary mb-2" v-on:click="togglePast()" v-if="showPast == 0 && !showOverdue">View Past Activities</button>
                                         <button class="btn btn-primary mb-2" v-on:click="togglePast()" v-if="showPast == 1">View Current Activities</button>
 
-                                        <div v-bind:key="activity.id" v-for="activity in activities">
+                                        <div :key="activity.id" v-for="activity in activities">
                                             <div style="padding: 10px;" v-if="(activity.completed == showPast && !showOverdue) || (showOverdue && activity.due == 'Overdue')">
                                                 <div><b>{{ activity.name }}</b></div>
                                                 <div>{{ activity.description }}</div>
@@ -75,7 +75,7 @@ export default {
             this.$emit('closePopup');
             this.showPast = 0;
         },
-        showForm(){
+        showForm(){ //Single toggleForm method
             this.createActivity = true;
         },
         closeForm(){
@@ -102,7 +102,7 @@ export default {
             });
         },
         togglePast(){
-            this.showPast = this.showPast == 0 ? 1 : 0;
+            this.showPast = this.showPast == 0 ? 1 : 0; //Change to boolean
         },
         deleteActivity(id){
             var temp = this;
@@ -125,7 +125,7 @@ export default {
 
                 if (temp.time > today) {
                     var minutes = temp.time.getMinutes() < 10 ? "0" + temp.time.getMinutes() : temp.time.getMinutes();
-
+                    //Put some into string so reduces repeats
                     temp.due = "Due " + temp.time.getDate() + " " + months[temp.time.getMonth()] + " at " + temp.time.getHours() + ":" + minutes;
                     temp.due = temp.time.getDate() == today.getDate() ? "Due today at " + temp.time.getHours() + ":" + minutes : temp.due;
                     temp.due = temp.time.getDate() == today.getDate()+1 ? "Due tomorrow at " + temp.time.getHours() + ":" + minutes : temp.due;
@@ -147,7 +147,7 @@ export default {
             this.getActivities();
         },
         plantName: function(){
-            this.showOverdue = this.plantName == "Overdue" ? true : false;
+            this.showOverdue = this.plantName == "Overdue";
         }
     }
 }

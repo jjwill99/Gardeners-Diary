@@ -4,7 +4,7 @@
         <garden-form :value="this.showGardenForm" @closePopup="showGardenForm = false" @getGardens="getGardens()"></garden-form>
 
         <div class="row">
-            <div v-bind:key="garden.id" v-for="garden in gardens">
+            <div :key="garden.id" v-for="garden in gardens">
                 <div class="card ml-2 mr-2" style="width: 20rem;">
                     <router-link :to="{path: '/garden?id=' + garden.id}">
                         <img class="card-img img-fluid" :src="garden.picture" style="height: 14vw" alt="Garden Item Image">
@@ -14,10 +14,10 @@
                         </div>
                     </router-link>
                 </div>
-                <center><button class="btn btn-danger mb-2" style="width: 20rem;" v-on:click="deleteGarden(garden.id)">Delete Garden</button></center>
+                <center><button class="btn btn-danger mb-2" style="width: 20rem;" @click="deleteGarden(garden.id)">Delete Garden</button></center>
             </div>
         </div>
-        <button class="btn btn-primary" v-on:click="openPopup()">Add New Garden</button>
+        <button class="btn btn-primary" @click="openPopup()">Add New Garden</button>
     </div>
 </template>
 
@@ -35,14 +35,14 @@
             }
         },
         computed: {
-            gardens(){
+            gardens: function(){
                 var newArray = [];
 
                 this.results.forEach(result => {
                     var picture = result.picture;
 
                     if (picture === null) {
-                        picture = "./Images/gardenItem.jpg";
+                        picture = "./Images/gardenItem.jpg"; //Create this as default data variable
                     } else {
                         picture = "./storage/images/" + picture;
                     }

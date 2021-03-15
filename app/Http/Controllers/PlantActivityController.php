@@ -104,7 +104,7 @@ class PlantActivityController extends Controller
             $activity->delete();
             return redirect('garden')->with('success','Activities have been deleted');
         } else {
-            $nextActivity = new PlantActivity;
+            $nextActivity = new PlantActivity; //create method for reuse
             $nextActivity->name = $activity->name;
             $nextActivity->description = $activity->description;
             $nextActivity->frequency = $activity->frequency;

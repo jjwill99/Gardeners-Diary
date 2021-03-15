@@ -8,7 +8,7 @@
                         <div class="modal-content">
                             <div class="modal-header">
                                 <h4 class="modal-title">
-                                    Create a new garden
+                                    Save state of garden
                                 </h4>
                                 <button type="button" class="close" @click="closePopup()">
                                     <span aria-hidden="true">&times;</span>
@@ -17,21 +17,12 @@
                                 <form @submit.prevent="addNewGarden">
                                     <div class="modal-body">
                                         <div class="form-group">
-                                            <label>Enter garden name</label>
-                                            <input type="text" name="name" class="form-control" v-model="gardenName" />
+                                            <label>Enter garden history name</label>
+                                            <input type="text" class="form-control" v-model="historyName" />
                                         </div>
                                         <div class="form-group">
-                                            <label>Enter garden width</label>
-                                            <input type="number" min="0" max="100" class="form-control" v-model="width" />
-                                        </div>
-                                        <div class="form-group">
-                                            <label>Enter garden length</label>
-                                            <input type="number" min="0" max="100" class="form-control" v-model="length" />
-                                        </div>
-                                        <div class="form-group">
-                                            <label>Choose garden image</label>
-                                            <br />
-                                            <input type="file" name="picture" ref="file" placeholder="Image file" v-on:change="handleImage()" />
+                                            <label>Enter date</label>
+                                            <input type="date" class="form-control" v-model="date" />
                                         </div>
                                         <br />
                                         <div align="center">
@@ -55,14 +46,15 @@ export default {
     props: {
             value: {
                 required: true
+            },
+            gardenId: {
+                required: true
             }
     },
     data(){
         return{
-            gardenName: '',
-            width: '',
-            length: '',
-            picture: null
+            historyName: '',
+            date: ''
         }
     },
     methods: {
@@ -71,26 +63,16 @@ export default {
             },
         addNewGarden(){
             var temp = this;
-            // var formData = {name:temp.gardenName, width:temp.width, picture:temp.picture, length:temp.length}
-            let formData = new FormData();
-            formData.append('name', this.gardenName);
-            formData.append('width', this.width);
-            formData.append('picture', this.picture);
-            formData.append('length', this.length);
-            
-            axios.post('/api/addGarden', formData, {headers: {
-                'Content-Type': 'multipart/form-data'
-            }})
-            .then(function(response) {
-                temp.$emit('getGardens');
-                temp.gardenName= '';
-                temp.width = '';
-                temp.length = '';
-                temp.picture = null;
+
+            axios.post('/api/storeHistory', {
+                gardenId:temp.gardenId,
+                historyName:temp.historyName,
+                date:temp.date
+            })
+            .then(function(response){
+                temp.historyName = '';
+                temp.date = '';
             });
-        },
-        handleImage(){
-            this.picture = this.$refs.file.files[0];
         }
     }
 }

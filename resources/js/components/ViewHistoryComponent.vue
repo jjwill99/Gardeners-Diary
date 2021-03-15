@@ -1,29 +1,8 @@
 <template>
     <div>
 
-        <manage-activities :plantId="plantId" :plantName="plant_name" @closePopup='closePopup()'></manage-activities>
-        <manage-history :value="manageHistoryPopup" :gardenId="gardenId" @closePopup='toggleManageHistory()'></manage-history>
-        <create-history :value="createHistoryPopup" :gardenId="gardenId" @closePopup='toggleStoreHistory()'></create-history>
-
         <div class="sidebar border border-dark rounded">
-            <center>
-                ACTIONS:
-
-                <button class="btn btn-danger m-1" style="width: 90%; height: 3vw;" @click="openActivities(-1, 'Overdue')">
-                    Overdue Activities
-                </button>
-
-                <div :key="plant.id" v-for="plant in plantResults">
-                    <button class="btn btn-primary m-1" style="width: 90%; height: 3vw;" @click="openActivities(plant.id, plant.plant_name)">
-                        <img style="height: 2.5vw; float: left;" :src="'./storage/images/' + plant.icon">
-                        {{ plant.plant_name }} Activities
-                    </button>
-                </div>
-
-                <button class="btn btn-primary m-1" style="width: 90%; height: 3vw;" v-on:click="toggleManageHistory()">View Garden History</button>
-                <button class="btn btn-primary m-1" style="width: 90%; height: 3vw;" v-on:click="toggleStoreHistory()">Save To History</button>
-                <router-link class="btn btn-primary m-1" style="width: 90%; height: 3vw;" :to="{path: '/editgarden?id=' + this.gardenId}">Edit Garden</router-link>
-            </center>
+            <button class="btn btn-primary" style="width: 100%;" v-on:click="goBack()">Back Button</button>
         </div>
     
         <div class="grid" id="garden">
@@ -56,15 +35,11 @@
 export default {
     data: function(){
         return {
-            gardenId: '',
+            historyId: '',
             gardenResult: [],
             locationResults: [],
             plantResults: [],
             grid: [],
-            plantId: -1,
-            plant_name: '',
-            manageHistoryPopup: false,
-            createHistoryPopup: false
         }
     },
     computed: {
@@ -97,43 +72,35 @@ export default {
         isWide() {
             return this.gardenResult.width >= this.gardenResult.length;
         },
-        tile_size() { //Terniary
-            if (this.isWide) {
-                return (80/this.gardenResult.width);
-            }
-            return (80/this.gardenResult.length);
+        tile_size() {
+            return this.isWide ? (80/this.gardenResult.width) : (80/this.gardenResult.length);
         },
         dimensionUnit() {
-            if(this.isWide){
-                return 'vw';
-            }
-            return 'vh';
+            return this.isWide ? 'vw' : 'vh';
         },
         icon() {
-            var unit = this.isWide ? 'vw' : 'vh';
-
             return {
                 position: 'absolute',
-                width: this.tile_size/2 + unit,
-                height: this.tile_size/2 + unit
+                width: this.tile_size/2 + this.dimensionUnit,
+                height: this.tile_size/2 + this.dimensionUnit
             }
         }
     },
     mounted() {
         var params = new URLSearchParams(document.location.search.substring(1));
-        this.gardenId = params.get('id');
+        this.historyId = params.get('id');
 
         this.gardenResult = [];
         var temp = this;
-        axios.get('/api/getGarden', {params: {gardenId: temp.gardenId}})
+        axios.get('/api/getGardenHistory', {params: {historyId: temp.historyId}})
         .then(function(response) {temp.gardenResult = response.data});
 
         this.locationResults = [];
-        axios.get('/api/getPlantLocations', {params: {gardenId: temp.gardenId}})
+        axios.get('/api/getPlantLocationHistory', {params: {historyId: temp.historyId}})
         .then(function(response) {temp.locationResults = response.data});
 
         this.plantResults = [];
-        axios.get('/api/getPlants', {params: {gardenId: temp.gardenId}})
+        axios.get('/api/getPlantHistory', {params: {historyId: temp.historyId}})
         .then(function(response) {temp.plantResults = response.data});
     },
     methods: {
@@ -150,6 +117,9 @@ export default {
         closePopup(){
             this.plantId = -1;
             this.plant_name = "";
+        },
+        goBack(){
+            window.history.back();
         }
     }
 }
