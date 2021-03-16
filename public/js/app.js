@@ -2020,6 +2020,10 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
     value: {
@@ -2035,6 +2039,7 @@ __webpack_require__.r(__webpack_exports__);
       description: '',
       time: '',
       repeat: false,
+      completed: false,
       frequencyNumber: 1,
       frequencyUnit: 'day'
     };
@@ -2049,6 +2054,7 @@ __webpack_require__.r(__webpack_exports__);
       formData.append('name', this.name);
       formData.append('description', this.description);
       formData.append('time', this.time);
+      formData.append('completed', this.repeat ? false : this.completed);
       formData.append('plantId', this.plantId);
 
       if (this.repeat) {
@@ -2066,6 +2072,7 @@ __webpack_require__.r(__webpack_exports__);
         temp.name = '';
         temp.description = '';
         temp.time = '';
+        temp.completed = false;
       });
     }
   }
@@ -40632,6 +40639,51 @@ var render = function() {
                         })
                       ]),
                       _vm._v(" "),
+                      !_vm.repeat
+                        ? _c("div", { staticClass: "form-group" }, [
+                            _c("input", {
+                              directives: [
+                                {
+                                  name: "model",
+                                  rawName: "v-model",
+                                  value: _vm.completed,
+                                  expression: "completed"
+                                }
+                              ],
+                              attrs: { type: "checkbox" },
+                              domProps: {
+                                checked: Array.isArray(_vm.completed)
+                                  ? _vm._i(_vm.completed, null) > -1
+                                  : _vm.completed
+                              },
+                              on: {
+                                change: function($event) {
+                                  var $$a = _vm.completed,
+                                    $$el = $event.target,
+                                    $$c = $$el.checked ? true : false
+                                  if (Array.isArray($$a)) {
+                                    var $$v = null,
+                                      $$i = _vm._i($$a, $$v)
+                                    if ($$el.checked) {
+                                      $$i < 0 &&
+                                        (_vm.completed = $$a.concat([$$v]))
+                                    } else {
+                                      $$i > -1 &&
+                                        (_vm.completed = $$a
+                                          .slice(0, $$i)
+                                          .concat($$a.slice($$i + 1)))
+                                    }
+                                  } else {
+                                    _vm.completed = $$c
+                                  }
+                                }
+                              }
+                            }),
+                            _vm._v(" "),
+                            _c("label", [_vm._v("Already completed")])
+                          ])
+                        : _vm._e(),
+                      _vm._v(" "),
                       _c("div", { staticClass: "form-group" }, [
                         _c("input", {
                           directives: [
@@ -42798,7 +42850,7 @@ var render = function() {
                                     }
                                   }
                                 },
-                                [_vm._v("View Past Activities")]
+                                [_vm._v("View Completed Activities")]
                               )
                             : _vm._e(),
                           _vm._v(" "),
@@ -59902,10 +59954,11 @@ var router = new vue_router__WEBPACK_IMPORTED_MODULE_1__["default"]({
   }, {
     path: '/garden',
     name: 'garden',
-    component: _components_GardenComponent__WEBPACK_IMPORTED_MODULE_13__["default"],
-    meta: {
-      requiresAuth: true
-    }
+    component: _components_GardenComponent__WEBPACK_IMPORTED_MODULE_13__["default"] // ,
+    // meta: {
+    //     requiresAuth: true
+    // }
+
   }, {
     path: '/editgarden',
     name: 'edit',

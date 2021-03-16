@@ -82,10 +82,11 @@ const router = new VueRouter({
         {
             path: '/garden',
             name: 'garden',
-            component: Garden,
-            meta: {
-                requiresAuth: true
-            }
+            component: Garden
+            // ,
+            // meta: {
+            //     requiresAuth: true
+            // }
         },
         {
             path: '/editgarden',

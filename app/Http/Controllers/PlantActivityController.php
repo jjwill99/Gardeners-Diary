@@ -24,6 +24,7 @@ class PlantActivityController extends Controller
             'name' => 'required',
             'description' => 'required',
             'time' => 'required',
+            'completed' => 'required',
             'plantId' => 'required',
             'frequency' => 'sometimes|nullable'
         ]);
@@ -32,7 +33,7 @@ class PlantActivityController extends Controller
         $activity->name = $request->input('name');
         $activity->description = $request->input('description');
         $activity->time = $request->input('time');
-        $activity->completed = 0;
+        $activity->completed = $request->input('completed') == 'true' ? 1 : 0;
         $activity->plant_id = $request->input('plantId');
         $activity->frequency = $request->input('frequency');
 

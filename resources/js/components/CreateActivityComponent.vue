@@ -28,6 +28,10 @@
                                             <label>Enter activity time</label>
                                             <input type="datetime-local" class="form-control" v-model="time" />
                                         </div>
+                                        <div class="form-group" v-if="!repeat">
+                                            <input type="checkbox" v-model="completed" />
+                                            <label>Already completed</label>
+                                        </div>
                                         <div class="form-group">
                                             <input type="checkbox" v-model="repeat" />
                                             <label>Set To Repeat</label>
@@ -79,6 +83,7 @@ export default {
             description: '',
             time: '',
             repeat: false,
+            completed: false,
             frequencyNumber: 1,
             frequencyUnit: 'day'
         }
@@ -93,6 +98,7 @@ export default {
             formData.append('name', this.name);
             formData.append('description', this.description);
             formData.append('time', this.time);
+            formData.append('completed', this.repeat ? false : this.completed);
             formData.append('plantId', this.plantId);
             
             if (this.repeat) {
@@ -109,6 +115,7 @@ export default {
                 temp.name = '';
                 temp.description = '';
                 temp.time = '';
+                temp.completed = false;
             });
         }
     }

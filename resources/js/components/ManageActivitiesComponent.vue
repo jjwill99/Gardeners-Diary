@@ -23,7 +23,7 @@
                                     <div class="form-group">
 
                                         <button class="btn btn-primary mb-2" v-on:click="showForm()" v-if="!showOverdue">Add New Activity</button>
-                                        <button class="btn btn-primary mb-2" v-on:click="togglePast()" v-if="showPast == 0 && !showOverdue">View Past Activities</button>
+                                        <button class="btn btn-primary mb-2" v-on:click="togglePast()" v-if="showPast == 0 && !showOverdue">View Completed Activities</button>
                                         <button class="btn btn-primary mb-2" v-on:click="togglePast()" v-if="showPast == 1">View Current Activities</button>
 
                                         <div :key="activity.id" v-for="activity in activities">
