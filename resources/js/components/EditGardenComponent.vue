@@ -4,7 +4,7 @@
         <plant-form :value="this.showPlantForm" :gardenId="this.gardenId" @closePopup="showPlantForm = false" @getPlants="getPlants()"></plant-form>
 
         <div class="sidebar border border-dark rounded">
-            <center>SELECT A TILE:</center>
+            <center class="sidebar-title">SELECT A TILE:</center>
             <garden-tile colour="green" tile_name="Grass" background_colour="gold"></garden-tile>
             <garden-tile colour="saddleBrown" tile_name="Soil"></garden-tile>
             <garden-tile colour="burlyWood" tile_name="Tile"></garden-tile>
@@ -49,10 +49,8 @@
     </div>
 </template>
 
-<script> //Vue Mixin?
-import GardenGrid from './GardenGrid.vue'; //Not need?
+<script>
 export default {
-  components: { GardenGrid },
     data: function(){
         return {
             gardenId: '',
@@ -61,7 +59,8 @@ export default {
             locationResults: [],
             grid: [],
             mouseActive: false,
-            showPlantForm: false
+            showPlantForm: false,
+            validated: []
         }
     },
     computed: {
@@ -147,10 +146,20 @@ export default {
 
         this.gardenResult = [];
         var temp = this;
-        axios.get('/api/getGarden', {params: {gardenId: temp.gardenId}})
-        .then(function(response) {temp.gardenResult = response.data});
 
-        this.getPlantsAndLocations();
+        axios.get('/api/checkGardenUser', {params: {gardenId: temp.gardenId}})
+        .then(function (response) {
+            temp.validated = response.data;
+
+            if (temp.validated.value) {
+                axios.get('/api/getGarden', {params: {gardenId: temp.gardenId}})
+                .then(function(response) {temp.gardenResult = response.data});
+
+                temp.getPlantsAndLocations();
+            } else {
+                temp.$router.push('gardens');
+            }
+        });
     },
     methods: {
         saveLayout(){
@@ -256,7 +265,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
     .grid {
         margin-left: 15vw;
         margin-right: 5vw;
@@ -270,5 +279,11 @@ export default {
         left: 10px;
         background: #eee;
         overflow-x: hidden;
+    }
+
+    .btn, .sidebar-title {
+        width: 90%;
+        font-size: 1.5vh;
+        font-weight: bold;
     }
 </style>

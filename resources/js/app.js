@@ -25,18 +25,14 @@ window.Vue.use(VueRouter);
 
 // Vue.component('example-component', require('./components/ExampleComponent.vue').default);
 
-import GardenItem from './components/GardenItem.vue';
-Vue.component('garden-item', GardenItem);
-
-import GardenGrid from './components/GardenGrid.vue';
-Vue.component('garden-grid', GardenGrid);
+import Welcome from './components/WelcomeComponent';
+Vue.component('welcome', Welcome);
 
 import GardenTile from './components/GardenTile.vue';
 Vue.component('garden-tile', GardenTile);
 
 import GardensComponent from './components/GardensComponent.vue';
 Vue.component('gardens', GardensComponent);
-
 
 import CreateGarden from './components/CreateGardenComponent';
 Vue.component('garden-form', CreateGarden);
@@ -69,11 +65,17 @@ import Gardens from './components/GardensComponent';
 import Garden from './components/GardenComponent';
 import EditGarden from './components/EditGardenComponent';
 import GardenHistory from './components/ViewHistoryComponent';
+import Help from './components/HelpComponent';
 import Vue from "vue";
 
 const router = new VueRouter({
     mode: 'history',
     routes: [
+        {
+            path: '/',
+            name: 'welcome',
+            component: Welcome
+        },
         {
             path: '/gardens',
             name: 'gardens',
@@ -83,10 +85,6 @@ const router = new VueRouter({
             path: '/garden',
             name: 'garden',
             component: Garden
-            // ,
-            // meta: {
-            //     requiresAuth: true
-            // }
         },
         {
             path: '/editgarden',
@@ -97,7 +95,12 @@ const router = new VueRouter({
             path: '/gardenHistory',
             name: 'gardenHistory',
             component: GardenHistory
-        },        
+        },
+        {
+            path: '/help',
+            name: 'help',
+            component: Help
+        },
     ]
 });
 

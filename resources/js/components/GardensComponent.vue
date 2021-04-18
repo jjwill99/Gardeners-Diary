@@ -10,7 +10,7 @@
                         <img class="card-img img-fluid" :src="garden.picture" style="height: 14vw" alt="Garden Item Image">
 
                         <div class="card-img-overlay d-flex">
-                            <h1 class="align-self-center mx-auto text-white">{{ garden.name }}</h1>
+                            <h1 class="align-self-center mx-auto text-white garden-name">{{ garden.name }}</h1>
                         </div>
                     </router-link>
                 </div>
@@ -22,12 +22,7 @@
 </template>
 
 <script>
-    import GardenItem from './GardenItem.vue';
-
     export default {
-        components: {
-            'garden-item':GardenItem
-        },
         data: function(){
             return {
                 results: [],
@@ -82,3 +77,22 @@
         }
     }
 </script>
+
+<style scoped>
+
+    .garden-name {
+        font-weight: bold;
+        color: white;
+        text-shadow:
+            -2px -2px 0 #000,
+            2px -2px 0 #000,
+            -2px 2px 0 #000,
+            2px 2px 0 #000; 
+    }
+
+    .btn {
+        font-size: 1.5vh;
+        font-weight: bold;
+    }
+
+</style>

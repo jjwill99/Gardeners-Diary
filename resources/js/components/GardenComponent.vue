@@ -7,22 +7,23 @@
 
         <div class="sidebar border border-dark rounded">
             <center>
-                ACTIONS:
+                <div class="sidebar-title">ACTIONS:</div>
 
-                <button class="btn btn-danger m-1" style="width: 90%; height: 3vw;" @click="openActivities(-1, 'Overdue')">
+                <!-- <button class="btn btn-danger m-1" style="width: 90%; height: 3vw;" @click="openActivities(-1, 'Overdue')"> -->
+                <button class="btn btn-danger m-1" @click="openActivities(-1, 'Overdue')">
                     Overdue Activities
                 </button>
 
                 <div :key="plant.id" v-for="plant in plantResults">
-                    <button class="btn btn-primary m-1" style="width: 90%; height: 3vw;" @click="openActivities(plant.id, plant.plant_name)">
+                    <button class="btn btn-primary m-1" @click="openActivities(plant.id, plant.plant_name)">
                         <img style="height: 2.5vw; float: left;" :src="'./storage/images/' + plant.icon">
                         {{ plant.plant_name }} Activities
                     </button>
                 </div>
 
-                <button class="btn btn-primary m-1" style="width: 90%; height: 3vw;" v-on:click="toggleManageHistory()">View Garden History</button>
-                <button class="btn btn-primary m-1" style="width: 90%; height: 3vw;" v-on:click="toggleStoreHistory()">Save To History</button>
-                <router-link class="btn btn-primary m-1" style="width: 90%; height: 3vw;" :to="{path: '/editgarden?id=' + this.gardenId}">Edit Garden</router-link>
+                <button class="btn btn-primary m-1" v-on:click="toggleManageHistory()">View Garden History</button>
+                <button class="btn btn-primary m-1" v-on:click="toggleStoreHistory()">Save To History</button>
+                <router-link class="btn btn-primary m-1" :to="{path: '/editgarden?id=' + this.gardenId}">Edit Garden</router-link>
             </center>
         </div>
     
@@ -64,7 +65,8 @@ export default {
             plantId: -1,
             plant_name: '',
             manageHistoryPopup: false,
-            createHistoryPopup: false
+            createHistoryPopup: false,
+            validated: []
         }
     },
     computed: {
@@ -125,16 +127,26 @@ export default {
 
         this.gardenResult = [];
         var temp = this;
-        axios.get('/api/getGarden', {params: {gardenId: temp.gardenId}})
-        .then(function(response) {temp.gardenResult = response.data});
 
-        this.locationResults = [];
-        axios.get('/api/getPlantLocations', {params: {gardenId: temp.gardenId}})
-        .then(function(response) {temp.locationResults = response.data});
+        axios.get('/api/checkGardenUser', {params: {gardenId: temp.gardenId}})
+        .then(function (response) {
+            temp.validated = response.data;
 
-        this.plantResults = [];
-        axios.get('/api/getPlants', {params: {gardenId: temp.gardenId}})
-        .then(function(response) {temp.plantResults = response.data});
+            if (temp.validated.value) {
+                axios.get('/api/getGarden', {params: {gardenId: temp.gardenId}})
+                .then(function(response) {temp.gardenResult = response.data});
+
+                temp.locationResults = [];
+                axios.get('/api/getPlantLocations', {params: {gardenId: temp.gardenId}})
+                .then(function(response) {temp.locationResults = response.data});
+
+                temp.plantResults = [];
+                axios.get('/api/getPlants', {params: {gardenId: temp.gardenId}})
+                .then(function(response) {temp.plantResults = response.data});
+            } else {
+                temp.$router.push('gardens');
+            }
+        });
     },
     methods: {
         toggleManageHistory(){
@@ -155,7 +167,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
     .grid {
         margin-left: 15vw;
         margin-right: 5vw;
@@ -169,5 +181,11 @@ export default {
         left: 10px;
         background: #eee;
         overflow-x: hidden;
+    }
+
+    .btn, .sidebar-title {
+        width: 90%;
+        font-size: 1.5vh;
+        font-weight: bold;
     }
 </style>

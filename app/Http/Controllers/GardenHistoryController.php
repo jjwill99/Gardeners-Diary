@@ -12,6 +12,22 @@ use App\PlantLocationHistory;
 
 class GardenHistoryController extends Controller
 {
+    public function checkUser(Request $request){
+        $historyId = $request->input('historyId');
+        
+        $userId = \Auth::user()->id;
+        $historyUserId = GardenHistory::join('gardens', 'garden_histories.garden_id', '=', 'gardens.id')
+                            ->select('gardens.user_id')
+                            ->where('garden_histories.id', $historyId)
+                            ->first();
+
+        $validated = $userId == $historyUserId->user_id;
+
+        return response()->json([
+            'value' => $validated
+        ]);
+    }
+
     public function store(Request $request){
         $history = $this->validate(request(), [
             'gardenId' => 'required',

@@ -24,6 +24,7 @@ Route::post('/deleteGarden', 'GardenController@destroy');
 Route::post('/addGarden', 'GardenController@store');
 
 //Garden Page
+Route::get('/checkGardenUser', 'GardenController@checkUser');
 Route::get('/getGarden', 'GardenController@getGarden');
 Route::get('/getActivities', 'PlantActivityController@getActivities');
 Route::get('/getHistories', 'GardenHistoryController@getHistories');
@@ -42,6 +43,7 @@ Route::get('/getPlantLocations', 'PlantController@getLocations');
 Route::post('/deletePlant', 'PlantController@destroy');
 
 //Garden History Page
+Route::get('/checkHistoryUser', 'GardenHistoryController@checkUser');
 Route::get('/getGardenHistory', 'GardenHistoryController@getGarden');
 Route::get('/getPlantHistory', 'GardenHistoryController@getPlants');
 Route::get('/getPlantLocationHistory', 'GardenHistoryController@getLocations');

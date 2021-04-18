@@ -3,7 +3,7 @@
     <div class="border-top border-dark" :style="{height:'9vh', padding:'1vh', backgroundColor:background}" v-if="icon===''">
         <div class="border border-dark" :style="{width:'7vh', height:'7vh', backgroundColor: colour, float:'left'}" v-on:click="mouseclick"></div>
         <div class="d-flex" style="height:7vh">
-            <center class="align-self-center mx-auto">{{tile_name}}</center>
+            <center class="align-self-center mx-auto tilename">{{tile_name}}</center>
         </div>
     </div>
 
@@ -19,7 +19,7 @@
         
         <div class="d-flex" style="height:7vh">
             
-            <center class="align-self-center mx-auto">
+            <center class="align-self-center mx-auto tilename">
                 {{tile_name}}
 
                 <button class="btn btn-danger mb-2" v-on:click="deletePlant(plantId)">Delete All</button>
@@ -112,3 +112,13 @@
         }
     }
 </script>
+
+<style scoped>
+
+    .btn, .tilename {
+            width: 90%;
+            font-size: 1.5vh;
+            font-weight: bold;
+        }
+
+</style>

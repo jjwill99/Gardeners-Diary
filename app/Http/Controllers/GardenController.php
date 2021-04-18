@@ -23,6 +23,18 @@ class GardenController extends Controller
         return response()->json($gardens);
     }
 
+    public function checkUser(Request $request){
+        $gardenId = $request->input('gardenId');
+        
+        $userId = \Auth::user()->id;
+        $gardenUserId = Garden::find($gardenId)->user_id;
+        $validated = $userId == $gardenUserId;
+
+        return response()->json([
+            'value' => $validated
+        ]);
+    }
+
     public function show(Request $request){
         $id = $request->fullUrl();
         $id = str_replace('=', '', substr($id, strpos($id, '?') + 1));

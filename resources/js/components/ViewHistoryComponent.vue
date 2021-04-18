@@ -40,6 +40,7 @@ export default {
             locationResults: [],
             plantResults: [],
             grid: [],
+            validated: []
         }
     },
     computed: {
@@ -92,16 +93,39 @@ export default {
 
         this.gardenResult = [];
         var temp = this;
-        axios.get('/api/getGardenHistory', {params: {historyId: temp.historyId}})
-        .then(function(response) {temp.gardenResult = response.data});
 
-        this.locationResults = [];
-        axios.get('/api/getPlantLocationHistory', {params: {historyId: temp.historyId}})
-        .then(function(response) {temp.locationResults = response.data});
 
-        this.plantResults = [];
-        axios.get('/api/getPlantHistory', {params: {historyId: temp.historyId}})
+        axios.get('/api/checkHistoryUser', {params: {historyId: temp.historyId}})
+        .then(function (response) {
+            temp.validated = response.data;
+
+            if (temp.validated.value) {
+                axios.get('/api/getGardenHistory', {params: {historyId: temp.historyId}})
+                .then(function(response) {temp.gardenResult = response.data});
+
+                temp.locationResults = [];
+                axios.get('/api/getPlantLocationHistory', {params: {historyId: temp.historyId}})
+                .then(function(response) {temp.locationResults = response.data});
+
+                temp.plantResults = [];
+                axios.get('/api/getPlantHistory', {params: {historyId: temp.historyId}})
         .then(function(response) {temp.plantResults = response.data});
+            } else {
+                temp.$router.push('gardens');
+            }
+        });
+
+
+        // axios.get('/api/getGardenHistory', {params: {historyId: temp.historyId}})
+        // .then(function(response) {temp.gardenResult = response.data});
+
+        // this.locationResults = [];
+        // axios.get('/api/getPlantLocationHistory', {params: {historyId: temp.historyId}})
+        // .then(function(response) {temp.locationResults = response.data});
+
+        // this.plantResults = [];
+        // axios.get('/api/getPlantHistory', {params: {historyId: temp.historyId}})
+        // .then(function(response) {temp.plantResults = response.data});
     },
     methods: {
         toggleManageHistory(){
