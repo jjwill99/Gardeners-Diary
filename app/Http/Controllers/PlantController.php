@@ -8,12 +8,11 @@ use App\PlantLocation;
 
 class PlantController extends Controller
 {
-    public function create(){
-        return view('plants.create');
-    }
-
+    /**
+     * Create a new plant record.
+     */
     public function store(Request $request){
-        //form validation
+        //Form validation
         $plant = $this->validate(request(), [
             'name' => 'required',
             'icon' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:500',
@@ -28,7 +27,7 @@ class PlantController extends Controller
         if ($request->hasFile('icon')){
             //Gets the filename with the extension
                 $fileNameWithExt = $request->file('icon')->getClientOriginalName();
-            //just gets the filename
+            //Just gets the filename
                 $filename = pathinfo($fileNameWithExt, PATHINFO_FILENAME);
             //Just gets the extension
                 $extension = $request->file('icon')->getClientOriginalExtension();
@@ -46,6 +45,9 @@ class PlantController extends Controller
         return redirect('garden')->with('success', 'Plant tile has been added');
     }
 
+    /**
+     * Retrieve all plant information for the specified garden.
+     */
     public function getPlants(Request $request){
         $gardenId = $request->input('gardenId');
 
@@ -54,6 +56,9 @@ class PlantController extends Controller
         return response()->json($plants);
     }
     
+    /**
+     * Retrieve all plant location information for the specified garden.
+     */
     public function getLocations(Request $request){
         $gardenId = $request->input('gardenId');
 
@@ -67,6 +72,9 @@ class PlantController extends Controller
         return response()->json($locations);
     }
 
+    /**
+     * Delete the specified plant record from the database.
+     */
     public function destroy(Request $request)
     {
         $plantId = $request->input('id');

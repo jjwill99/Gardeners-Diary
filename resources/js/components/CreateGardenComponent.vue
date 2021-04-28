@@ -21,15 +21,15 @@
                                             <input type="text" name="name" class="form-control" v-model="gardenName" />
                                         </div>
                                         <div class="form-group">
-                                            <label>Enter garden width</label>
+                                            <label>Enter garden width (max: 100)</label>
                                             <input type="number" min="0" max="100" class="form-control" v-model="width" />
                                         </div>
                                         <div class="form-group">
-                                            <label>Enter garden length</label>
+                                            <label>Enter garden length (max: 100)</label>
                                             <input type="number" min="0" max="100" class="form-control" v-model="length" />
                                         </div>
                                         <div class="form-group">
-                                            <label>Choose garden image</label>
+                                            <label>Choose garden image (optional)</label>
                                             <br />
                                             <input type="file" name="picture" ref="file" placeholder="Image file" v-on:change="handleImage()" />
                                         </div>
@@ -71,7 +71,6 @@ export default {
             },
         addNewGarden(){
             var temp = this;
-            // var formData = {name:temp.gardenName, width:temp.width, picture:temp.picture, length:temp.length}
             let formData = new FormData();
             formData.append('name', this.gardenName);
             formData.append('width', this.width);

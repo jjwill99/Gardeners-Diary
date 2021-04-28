@@ -3,6 +3,9 @@
         <article class="message" :class="accordionClasses1">
             <div class="message-header" @click="toggleAccordion1">
                 How to add a new garden
+                <div style="float: right;">
+                    <i class="arrow down"></i>
+                </div>
             </div>
             <div class="message-body">
                 <div class="message-content">
@@ -22,6 +25,9 @@
         <article class="message" :class="accordionClasses2">
             <div class="message-header" @click="toggleAccordion2">
                 How to customise a garden
+                <div style="float: right;">
+                    <i class="arrow down"></i>
+                </div>
             </div>
             <div class="message-body">
                 <div class="message-content">
@@ -41,6 +47,9 @@
         <article class="message" :class="accordionClasses3">
             <div class="message-header" @click="toggleAccordion3">
                 How to add a new plant
+                <div style="float: right;">
+                    <i class="arrow down"></i>
+                </div>
             </div>
             <div class="message-body">
                 <div class="message-content">
@@ -61,6 +70,9 @@
         <article class="message" :class="accordionClasses4">
             <div class="message-header" @click="toggleAccordion4">
                 How to customise the plants on one tile
+                <div style="float: right;">
+                    <i class="arrow down"></i>
+                </div>
             </div>
             <div class="message-body">
                 <div class="message-content">
@@ -81,6 +93,9 @@
         <article class="message" :class="accordionClasses5">
             <div class="message-header" @click="toggleAccordion5">
                 How to save a garden history
+                <div style="float: right;">
+                    <i class="arrow down"></i>
+                </div>
             </div>
             <div class="message-body">
                 <div class="message-content">
@@ -205,6 +220,18 @@ export default {
     .message-content {
         padding: 20px;
         font-size: 1.5vh;
+    }
+
+    .arrow {
+        border: solid black;
+        border-width: 0 3px 3px 0;
+        display: inline-block;
+        padding: 3px;
+    }
+
+    .down {
+        transform: rotate(45deg);
+        -webkit-transform: rotate(45deg);
     }
 
 </style>

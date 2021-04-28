@@ -63,6 +63,7 @@ export default {
     },
     data: function(){
         return {
+            gardenId: '',
             activitiesResults: [],
             createActivity: false,
             activity: null,
@@ -90,7 +91,7 @@ export default {
         getActivities(){
             var temp = this;
 
-            axios.get('/api/getActivities', {params: {id:temp.plantId}})
+            axios.get('/api/getActivities', {params: {id:temp.plantId, gardenId:temp.gardenId}})
             .then(function(response) {temp.activitiesResults = response.data});
         },
         activityCompleted(id){
@@ -123,12 +124,18 @@ export default {
                 var temp = activity;
                 temp.time = new Date(temp.time);
 
-                if (temp.time > today) {
+                if (temp.completed == 1) {
                     var minutes = temp.time.getMinutes() < 10 ? "0" + temp.time.getMinutes() : temp.time.getMinutes();
-                    //Put some into string so reduces repeats
-                    temp.due = "Due " + temp.time.getDate() + " " + months[temp.time.getMonth()] + " at " + temp.time.getHours() + ":" + minutes;
-                    temp.due = temp.time.getDate() == today.getDate() ? "Due today at " + temp.time.getHours() + ":" + minutes : temp.due;
-                    temp.due = temp.time.getDate() == today.getDate()+1 ? "Due tomorrow at " + temp.time.getHours() + ":" + minutes : temp.due;
+                    temp.due = "Was due on " + temp.time.getDate() + " " + months[temp.time.getMonth()] + " at " + temp.time.getHours() + ":" + minutes;
+                }
+                else if (temp.time > today) {
+                    var date = temp.time.getDate();
+                    var hours = temp.time.getHours();
+                    var minutes = temp.time.getMinutes() < 10 ? "0" + temp.time.getMinutes() : temp.time.getMinutes();
+                    
+                    temp.due = "Due " + date + " " + months[temp.time.getMonth()] + " at " + hours + ":" + minutes;
+                    temp.due = date == today.getDate() ? "Due today at " + hours + ":" + minutes : temp.due;
+                    temp.due = date == today.getDate()+1 ? "Due tomorrow at " + hours + ":" + minutes : temp.due;
                 } else {
                     temp.due = "Overdue";
                 }
@@ -140,6 +147,9 @@ export default {
         }
     },
     mounted(){
+        var params = new URLSearchParams(document.location.search.substring(1));
+        this.gardenId = params.get('id');
+
         this.getActivities();
     },
     watch: {

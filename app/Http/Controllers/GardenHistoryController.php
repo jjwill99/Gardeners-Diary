@@ -12,6 +12,9 @@ use App\PlantLocationHistory;
 
 class GardenHistoryController extends Controller
 {
+    /**
+     * Check that the user owns the selected garden history.
+     */
     public function checkUser(Request $request){
         $historyId = $request->input('historyId');
         
@@ -28,7 +31,11 @@ class GardenHistoryController extends Controller
         ]);
     }
 
+    /**
+     * Create a new garden history record.
+     */
     public function store(Request $request){
+        //Form validation
         $history = $this->validate(request(), [
             'gardenId' => 'required',
             'historyName' => 'required',
@@ -42,6 +49,7 @@ class GardenHistoryController extends Controller
         $plantInformation = Plant::where('garden_id', $gardenId)
                                 ->get();
 
+        //Create a GardenHistory object and set its values from the input
         $history = new GardenHistory;
         $history->name = $request->input('historyName');
         $history->width = $gardenInformation->width;
@@ -51,6 +59,7 @@ class GardenHistoryController extends Controller
         $history->garden_id = $gardenId;
         $history->save();
 
+        //Loop through the garden's plants and create a PlantHistory record for each one
         foreach ($plantInformation as $plant) {
             $plantHistory = new PlantHistory();
             $plantHistory->plant_name = $plant->plant_name;
@@ -60,6 +69,7 @@ class GardenHistoryController extends Controller
 
             $locationInformation = PlantLocation::where('plant_id', $plant->id)->get();
 
+            //Loop through the garden's plant location and create a PlantLocationHistory record for each one
             foreach ($locationInformation->where('plant_id', $plant->id) as $location) {                
                 $locationHistory = new PlantLocationHistory();
                 $locationHistory->row = $location->row;
@@ -72,6 +82,9 @@ class GardenHistoryController extends Controller
 
     }
 
+    /**
+     * Retrieve all garden histories information for the specified garden.
+     */
     public function getHistories(Request $request){
         $gardenId = $request->input('gardenId');
 
@@ -80,6 +93,9 @@ class GardenHistoryController extends Controller
         return response()->json($histories);
     }
 
+    /**
+     * Retrieve all garden histrory information for the specified garden history.
+     */
     public function getGarden(Request $request){
         $historyId = $request->input('historyId');
 
@@ -88,6 +104,9 @@ class GardenHistoryController extends Controller
         return response()->json($history);
     }
 
+    /**
+     * Retrieve all plant history information for the specified garden history.
+     */
     public function getPlants(Request $request){
         $historyId = $request->input('historyId');
 
@@ -96,6 +115,9 @@ class GardenHistoryController extends Controller
         return response()->json($plants);
     }
 
+    /**
+     * Retrieve all plant location history information for the specified garden history.
+     */
     public function getLocations(Request $request){
         $historyId = $request->input('historyId');
 
@@ -109,6 +131,9 @@ class GardenHistoryController extends Controller
         return response()->json($locations);
     }
 
+    /**
+     * Delete the specified garden history record (and all plant/plant location history) from the database.
+     */
     public function destroy(Request $request)
     {
         $id = $request->input('id');

@@ -14,7 +14,5 @@ use Illuminate\Support\Facades\Route;
 */
 
 Auth::routes();
-Route::get('list', 'UserController@list');
-Route::get('show/{id}', 'UserController@show');
 
 Route::get('/{any}', 'SpaController@index')->where('any', '.*');

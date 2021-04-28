@@ -1,36 +1,31 @@
 <template>
 
-    <div class="border-top border-dark" :style="{height:'9vh', padding:'1vh', backgroundColor:background}" v-if="icon===''">
-        <div class="border border-dark" :style="{width:'7vh', height:'7vh', backgroundColor: colour, float:'left'}" v-on:click="mouseclick"></div>
-        <div class="d-flex" style="height:7vh">
-            <center class="align-self-center mx-auto tilename">{{tile_name}}</center>
+    <div class="border-top border-dark" :style="{height:'9vh', padding:'1vh', backgroundColor:background, cursor:'pointer'}" v-if="icon===''">
+        <div v-on:click="mouseclick">
+            <div class="border border-dark" :style="{width:'7vh', height:'7vh', backgroundColor: colour, float:'left'}"></div>
+            <div class="d-flex" style="height:7vh">
+                <center class="align-self-center mx-auto tilename">{{tile_name}}</center>
+            </div>
         </div>
     </div>
 
-    <div class="border-top border-dark" :style="{height:'9vh', padding:'1vh', backgroundColor:background}" v-else>
-        <div class="border border-dark" :style="{width:'7vh', height:'7vh', backgroundColor: colour, float:'left'}" v-on:click="iconclick; iconclick('reset')">
-            <div style="position: relative;">
-                <img class="card-img img-fluid" :style=iconStyle                                    :src="'./storage/images/' + this.icon" alt="Plant Icon" v-on:click="iconclick('1')" v-if="icon_location.includes('1')">
-                <img class="card-img img-fluid" :style="[iconStyle, {left: '50%'}]"                 :src="'./storage/images/' + this.icon" alt="Plant Icon" v-on:click="iconclick('2')" v-if="icon_location.includes('2')">
-                <img class="card-img img-fluid" :style="[iconStyle, {top: '3.5vh'}]"                :src="'./storage/images/' + this.icon" alt="Plant Icon" v-on:click="iconclick('3')" v-if="icon_location.includes('3')">
-                <img class="card-img img-fluid" :style="[iconStyle, {top: '3.5vh', left: '50%'}]"   :src="'./storage/images/' + this.icon" alt="Plant Icon" v-on:click="iconclick('4')" v-if="icon_location.includes('4')">
+    <div class="border-top border-dark" :style="{height:'9vh', padding:'1vh', backgroundColor:background, cursor:'pointer'}" v-else>
+        <div v-on:click="iconclick">
+            <div class="border border-dark" :style="{width:'7vh', height:'7vh', backgroundColor: colour, float:'left'}" v-on:click="iconclick; iconclick('reset')">
+                <div style="position: relative;">
+                    <img class="card-img img-fluid" :style=iconStyle                                    :src="'./storage/images/' + this.icon" alt="Plant Icon" v-on:click="iconclick('1')" v-if="icon_location.includes('1')">
+                    <img class="card-img img-fluid" :style="[iconStyle, {left: '50%'}]"                 :src="'./storage/images/' + this.icon" alt="Plant Icon" v-on:click="iconclick('2')" v-if="icon_location.includes('2')">
+                    <img class="card-img img-fluid" :style="[iconStyle, {top: '3.5vh'}]"                :src="'./storage/images/' + this.icon" alt="Plant Icon" v-on:click="iconclick('3')" v-if="icon_location.includes('3')">
+                    <img class="card-img img-fluid" :style="[iconStyle, {top: '3.5vh', left: '50%'}]"   :src="'./storage/images/' + this.icon" alt="Plant Icon" v-on:click="iconclick('4')" v-if="icon_location.includes('4')">
+                </div>
             </div>
-        </div>
-        
-        <div class="d-flex" style="height:7vh">
             
-            <center class="align-self-center mx-auto tilename">
-                {{tile_name}}
-
-                <button class="btn btn-danger mb-2" v-on:click="deletePlant(plantId)">Delete All</button>
-
-                <!-- <form :action=del method="post">
-                    <input name="_token" type="hidden" :value=csrf>
-                    <input name="_method" type="hidden" value="DELETE">
-                    <button class="btn btn-danger" type="submit" onclick="return confirm('Deleting this will delete all of this plant in this garden.\nDo you want to continue?');">Delete All</button>
-                </form> -->
-
-            </center>
+            <div class="d-flex" style="height:7vh">
+                <center class="align-self-center mx-auto tilename">
+                    {{tile_name}}
+                    <button class="btn btn-danger mb-2" v-on:click="deletePlant(plantId)">Delete All</button>
+                </center>
+            </div>
         </div>
     </div>
 

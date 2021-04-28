@@ -9,7 +9,6 @@
             <center>
                 <div class="sidebar-title">ACTIONS:</div>
 
-                <!-- <button class="btn btn-danger m-1" style="width: 90%; height: 3vw;" @click="openActivities(-1, 'Overdue')"> -->
                 <button class="btn btn-danger m-1" @click="openActivities(-1, 'Overdue')">
                     Overdue Activities
                 </button>

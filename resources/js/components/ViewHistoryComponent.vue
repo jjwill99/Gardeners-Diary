@@ -114,18 +114,6 @@ export default {
                 temp.$router.push('gardens');
             }
         });
-
-
-        // axios.get('/api/getGardenHistory', {params: {historyId: temp.historyId}})
-        // .then(function(response) {temp.gardenResult = response.data});
-
-        // this.locationResults = [];
-        // axios.get('/api/getPlantLocationHistory', {params: {historyId: temp.historyId}})
-        // .then(function(response) {temp.locationResults = response.data});
-
-        // this.plantResults = [];
-        // axios.get('/api/getPlantHistory', {params: {historyId: temp.historyId}})
-        // .then(function(response) {temp.plantResults = response.data});
     },
     methods: {
         toggleManageHistory(){

@@ -21,7 +21,7 @@
                                             <input type="text" name="name" class="form-control" v-model="name" />
                                         </div>
                                         <div class="form-group">
-                                            <label>Enter activity description</label>
+                                            <label>Enter activity description (optional)</label>
                                             <input type="text" class="form-control" v-model="description" />
                                         </div>
                                         <div class="form-group">

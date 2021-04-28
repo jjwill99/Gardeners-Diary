@@ -53,7 +53,7 @@
             }
         },
         mounted(){
-                this.getGardens();
+            this.getGardens();
         },
         methods: {
             deleteGarden: function(id){

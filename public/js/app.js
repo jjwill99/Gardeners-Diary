@@ -2160,8 +2160,7 @@ __webpack_require__.r(__webpack_exports__);
       this.$emit('closePopup');
     },
     addNewGarden: function addNewGarden() {
-      var temp = this; // var formData = {name:temp.gardenName, width:temp.width, picture:temp.picture, length:temp.length}
-
+      var temp = this;
       var formData = new FormData();
       formData.append('name', this.gardenName);
       formData.append('width', this.width);
@@ -2894,7 +2893,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -3030,11 +3028,6 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-//
-//
-//
-//
-//
 //
 //
 //
@@ -3345,6 +3338,21 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -3486,6 +3494,7 @@ __webpack_require__.r(__webpack_exports__);
   },
   data: function data() {
     return {
+      gardenId: '',
       activitiesResults: [],
       createActivity: false,
       activity: null,
@@ -3515,7 +3524,8 @@ __webpack_require__.r(__webpack_exports__);
       var temp = this;
       axios.get('/api/getActivities', {
         params: {
-          id: temp.plantId
+          id: temp.plantId,
+          gardenId: temp.gardenId
         }
       }).then(function (response) {
         temp.activitiesResults = response.data;
@@ -3551,12 +3561,16 @@ __webpack_require__.r(__webpack_exports__);
         var temp = activity;
         temp.time = new Date(temp.time);
 
-        if (temp.time > today) {
-          var minutes = temp.time.getMinutes() < 10 ? "0" + temp.time.getMinutes() : temp.time.getMinutes(); //Put some into string so reduces repeats
-
-          temp.due = "Due " + temp.time.getDate() + " " + months[temp.time.getMonth()] + " at " + temp.time.getHours() + ":" + minutes;
-          temp.due = temp.time.getDate() == today.getDate() ? "Due today at " + temp.time.getHours() + ":" + minutes : temp.due;
-          temp.due = temp.time.getDate() == today.getDate() + 1 ? "Due tomorrow at " + temp.time.getHours() + ":" + minutes : temp.due;
+        if (temp.completed == 1) {
+          var minutes = temp.time.getMinutes() < 10 ? "0" + temp.time.getMinutes() : temp.time.getMinutes();
+          temp.due = "Was due on " + temp.time.getDate() + " " + months[temp.time.getMonth()] + " at " + temp.time.getHours() + ":" + minutes;
+        } else if (temp.time > today) {
+          var date = temp.time.getDate();
+          var hours = temp.time.getHours();
+          var minutes = temp.time.getMinutes() < 10 ? "0" + temp.time.getMinutes() : temp.time.getMinutes();
+          temp.due = "Due " + date + " " + months[temp.time.getMonth()] + " at " + hours + ":" + minutes;
+          temp.due = date == today.getDate() ? "Due today at " + hours + ":" + minutes : temp.due;
+          temp.due = date == today.getDate() + 1 ? "Due tomorrow at " + hours + ":" + minutes : temp.due;
         } else {
           temp.due = "Overdue";
         }
@@ -3567,6 +3581,8 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   mounted: function mounted() {
+    var params = new URLSearchParams(document.location.search.substring(1));
+    this.gardenId = params.get('id');
     this.getActivities();
   },
   watch: {
@@ -3590,9 +3606,6 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-//
-//
-//
 //
 //
 //
@@ -3830,14 +3843,7 @@ __webpack_require__.r(__webpack_exports__);
       } else {
         temp.$router.push('gardens');
       }
-    }); // axios.get('/api/getGardenHistory', {params: {historyId: temp.historyId}})
-    // .then(function(response) {temp.gardenResult = response.data});
-    // this.locationResults = [];
-    // axios.get('/api/getPlantLocationHistory', {params: {historyId: temp.historyId}})
-    // .then(function(response) {temp.locationResults = response.data});
-    // this.plantResults = [];
-    // axios.get('/api/getPlantHistory', {params: {historyId: temp.historyId}})
-    // .then(function(response) {temp.plantResults = response.data});
+    });
   },
   methods: {
     toggleManageHistory: function toggleManageHistory() {
@@ -3881,7 +3887,86 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-/* harmony default export */ __webpack_exports__["default"] = ({});
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+/* harmony default export */ __webpack_exports__["default"] = ({
+  data: function data() {
+    return {
+      edit: "./Images/Edit Example.png",
+      activities: "./Images/Activities Example.png",
+      history1: "./Images/History Example 1.png",
+      history2: "./Images/History Example 2.png",
+      slideIndex: 1
+    };
+  },
+  mounted: function mounted() {
+    this.showSlides(this.slideIndex);
+  },
+  methods: {
+    plusSlides: function plusSlides(n) {
+      this.showSlides(this.slideIndex += n);
+    },
+    currentSlide: function currentSlide(n) {
+      this.showSlides(this.slideIndex = n);
+    },
+    showSlides: function showSlides(n) {
+      var i;
+      var slides = document.getElementsByClassName("mySlides");
+      var dots = document.getElementsByClassName("dot");
+
+      if (n > slides.length) {
+        this.slideIndex = 1;
+      }
+
+      if (n < 1) {
+        this.slideIndex = slides.length;
+      }
+
+      for (i = 0; i < slides.length; i++) {
+        slides[i].style.display = "none";
+      }
+
+      for (i = 0; i < dots.length; i++) {
+        dots[i].className = dots[i].className.replace(" active", "");
+      }
+
+      slides[this.slideIndex - 1].style.display = "block";
+      dots[this.slideIndex - 1].className += " active";
+    }
+  }
+});
 
 /***/ }),
 
@@ -8496,7 +8581,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\n.main[data-v-03276461] {\n    text-align: center;\n}\n.message[data-v-03276461] {\n    width: 50vw;\n    margin-left: auto;\n    margin-right: auto;\n    \n    background-color: #eee;\n    color: #444;\n    cursor: pointer;\n    padding: 18px;\n    border: none;\n    text-align: left;\n    outline: none;\n    font-size: 15px;\n}\n.message-header[data-v-03276461] {\n    cursor: pointer;\n    font-size: 2vh;\n    font-weight: bold;\n}\n.message-body[data-v-03276461]   {\n    padding: 0;\n    overflow: hidden;\n    transition: 0.3s ease all;\n    background-color: #f1f1f1;\n}\n.is-closed .message-body[data-v-03276461] {\n    max-height: 0;\n}\n.message-content[data-v-03276461] {\n    padding: 20px;\n    font-size: 1.5vh;\n}\n\n", ""]);
+exports.push([module.i, "\n.main[data-v-03276461] {\n    text-align: center;\n}\n.message[data-v-03276461] {\n    width: 50vw;\n    margin-left: auto;\n    margin-right: auto;\n    \n    background-color: #eee;\n    color: #444;\n    cursor: pointer;\n    padding: 18px;\n    border: none;\n    text-align: left;\n    outline: none;\n    font-size: 15px;\n}\n.message-header[data-v-03276461] {\n    cursor: pointer;\n    font-size: 2vh;\n    font-weight: bold;\n}\n.message-body[data-v-03276461]   {\n    padding: 0;\n    overflow: hidden;\n    transition: 0.3s ease all;\n    background-color: #f1f1f1;\n}\n.is-closed .message-body[data-v-03276461] {\n    max-height: 0;\n}\n.message-content[data-v-03276461] {\n    padding: 20px;\n    font-size: 1.5vh;\n}\n.arrow[data-v-03276461] {\n    border: solid black;\n    border-width: 0 3px 3px 0;\n    display: inline-block;\n    padding: 3px;\n}\n.down[data-v-03276461] {\n    transform: rotate(45deg);\n    -webkit-transform: rotate(45deg);\n}\n\n", ""]);
 
 // exports
 
@@ -8572,7 +8657,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\nhtml[data-v-1974e6b4], body[data-v-1974e6b4] {\n    background-color: #fff;\n    color: #636b6f;\n    font-family: 'Nunito', sans-serif;\n    font-weight: 200;\n    height: 100vh;\n    margin: 0;\n}\n.full-height[data-v-1974e6b4] {\n    height: 100vh;\n}\n.flex-center[data-v-1974e6b4] {\n    align-items: center;\n    display: flex;\n    justify-content: center;\n}\n.position-ref[data-v-1974e6b4] {\n    position: relative;\n}\n.top-right[data-v-1974e6b4] {\n    position: absolute;\n    right: 10px;\n    top: 18px;\n}\n.content[data-v-1974e6b4] {\n    text-align: center;\n}\n.title[data-v-1974e6b4] {\n    font-size: 84px;\n}\n.links > a[data-v-1974e6b4] {\n    color: #636b6f;\n    padding: 0 25px;\n    font-size: 13px;\n    font-weight: 600;\n    letter-spacing: .1rem;\n    text-decoration: none;\n    text-transform: uppercase;\n}\n.m-b-md[data-v-1974e6b4] {\n    margin-bottom: 30px;\n}\n", ""]);
+exports.push([module.i, "\nhtml[data-v-1974e6b4], body[data-v-1974e6b4] {\n    background-color: #fff;\n    color: #636b6f;\n    font-family: 'Nunito', sans-serif;\n    font-weight: 200;\n    height: 100vh;\n    margin: 0;\n}\n.full-height[data-v-1974e6b4] {\n    height: 100vh;\n}\n.flex-center[data-v-1974e6b4] {\n    align-items: center;\n    display: flex;\n    justify-content: center;\n}\n.position-ref[data-v-1974e6b4] {\n    position: relative;\n}\n.top-right[data-v-1974e6b4] {\n    position: absolute;\n    right: 10px;\n    top: 18px;\n}\n.content[data-v-1974e6b4] {\n    text-align: center;\n}\n.title[data-v-1974e6b4] {\n    font-size: 84px;\n}\n.links > a[data-v-1974e6b4] {\n    color: #636b6f;\n    padding: 0 25px;\n    font-size: 13px;\n    font-weight: 600;\n    letter-spacing: .1rem;\n    text-decoration: none;\n    text-transform: uppercase;\n}\n.m-b-md[data-v-1974e6b4] {\n    margin-bottom: 30px;\n}\n\n/* asd */\n.mySlides[data-v-1974e6b4] {\n    display: none\n}\nimg[data-v-1974e6b4] {\n    vertical-align: middle;\n}\n\n/* Slideshow container */\n.slideshow-container[data-v-1974e6b4] {\n    max-width: 1000px;\n    position: relative;\n    margin: auto;\n}\n\n/* Next & previous buttons */\n.prev[data-v-1974e6b4], .next[data-v-1974e6b4] {\n    cursor: pointer;\n    position: absolute;\n    top: 50%;\n    width: auto;\n    padding: 16px;\n    margin-top: -22px;\n    color: white;\n    background-color: rgba(209, 203, 203, 0.383);\n    font-weight: bold;\n    font-size: 18px;\n    transition: 0.6s ease;\n    border-radius: 0 3px 3px 0;\n    -webkit-user-select: none;\n       -moz-user-select: none;\n        -ms-user-select: none;\n            user-select: none;\n}\n\n/* Position the \"next button\" to the right */\n.next[data-v-1974e6b4] {\n    right: 0;\n    border-radius: 3px 0 0 3px;\n}\n\n/* Position the \"previous button\" to the right */\n.prev[data-v-1974e6b4] {\n    left: 0;\n    border-radius: 0 3px 3px 0;\n}\n\n/* On hover, add a black background color with a little bit see-through */\n.prev[data-v-1974e6b4]:hover, .next[data-v-1974e6b4]:hover {\n    background-color: rgba(0,0,0,0.8);\n}\n\n/* Caption text */\n.text[data-v-1974e6b4] {\n    font-size: 30px;\n    padding: 8px 12px;\n    position: absolute;\n    bottom: 8px;\n    width: 100%;\n    text-align: center;\n    font-weight: bold;\n    color: white;\n    text-shadow:\n        -1px -1px 0 #000,\n        1px -1px 0 #000,\n        -1px 1px 0 #000,\n        1px 1px 0 #000;\n}\n\n/* Number text (1/3 etc) */\n.numbertext[data-v-1974e6b4] {\n    color: #f2f2f2;\n    font-size: 12px;\n    padding: 8px 12px;\n    position: absolute;\n    top: 0;\n}\n\n/* The dots/bullets/indicators */\n.dot[data-v-1974e6b4] {\n    cursor: pointer;\n    height: 15px;\n    width: 15px;\n    margin: 0 2px;\n    background-color: #bbb;\n    border-radius: 50%;\n    display: inline-block;\n    transition: background-color 0.6s ease;\n}\n.active[data-v-1974e6b4], .dot[data-v-1974e6b4]:hover {\n    background-color: #717171;\n}\n\n", ""]);
 
 // exports
 
@@ -40840,7 +40925,9 @@ var render = function() {
                       ]),
                       _vm._v(" "),
                       _c("div", { staticClass: "form-group" }, [
-                        _c("label", [_vm._v("Enter activity description")]),
+                        _c("label", [
+                          _vm._v("Enter activity description (optional)")
+                        ]),
                         _vm._v(" "),
                         _c("input", {
                           directives: [
@@ -41191,7 +41278,7 @@ var render = function() {
                       ]),
                       _vm._v(" "),
                       _c("div", { staticClass: "form-group" }, [
-                        _c("label", [_vm._v("Enter garden width")]),
+                        _c("label", [_vm._v("Enter garden width (max: 100)")]),
                         _vm._v(" "),
                         _c("input", {
                           directives: [
@@ -41217,7 +41304,7 @@ var render = function() {
                       ]),
                       _vm._v(" "),
                       _c("div", { staticClass: "form-group" }, [
-                        _c("label", [_vm._v("Enter garden length")]),
+                        _c("label", [_vm._v("Enter garden length (max: 100)")]),
                         _vm._v(" "),
                         _c("input", {
                           directives: [
@@ -41243,7 +41330,7 @@ var render = function() {
                       ]),
                       _vm._v(" "),
                       _c("div", { staticClass: "form-group" }, [
-                        _c("label", [_vm._v("Choose garden image")]),
+                        _c("label", [_vm._v("Choose garden image (optional)")]),
                         _vm._v(" "),
                         _c("br"),
                         _vm._v(" "),
@@ -42500,33 +42587,35 @@ var render = function() {
           style: {
             height: "9vh",
             padding: "1vh",
-            backgroundColor: _vm.background
+            backgroundColor: _vm.background,
+            cursor: "pointer"
           }
         },
         [
-          _c("div", {
-            staticClass: "border border-dark",
-            style: {
-              width: "7vh",
-              height: "7vh",
-              backgroundColor: _vm.colour,
-              float: "left"
-            },
-            on: { click: _vm.mouseclick }
-          }),
-          _vm._v(" "),
-          _c(
-            "div",
-            { staticClass: "d-flex", staticStyle: { height: "7vh" } },
-            [
-              _c(
-                "center",
-                { staticClass: "align-self-center mx-auto tilename" },
-                [_vm._v(_vm._s(_vm.tile_name))]
-              )
-            ],
-            1
-          )
+          _c("div", { on: { click: _vm.mouseclick } }, [
+            _c("div", {
+              staticClass: "border border-dark",
+              style: {
+                width: "7vh",
+                height: "7vh",
+                backgroundColor: _vm.colour,
+                float: "left"
+              }
+            }),
+            _vm._v(" "),
+            _c(
+              "div",
+              { staticClass: "d-flex", staticStyle: { height: "7vh" } },
+              [
+                _c(
+                  "center",
+                  { staticClass: "align-self-center mx-auto tilename" },
+                  [_vm._v(_vm._s(_vm.tile_name))]
+                )
+              ],
+              1
+            )
+          ])
         ]
       )
     : _c(
@@ -42536,126 +42625,129 @@ var render = function() {
           style: {
             height: "9vh",
             padding: "1vh",
-            backgroundColor: _vm.background
+            backgroundColor: _vm.background,
+            cursor: "pointer"
           }
         },
         [
-          _c(
-            "div",
-            {
-              staticClass: "border border-dark",
-              style: {
-                width: "7vh",
-                height: "7vh",
-                backgroundColor: _vm.colour,
-                float: "left"
-              },
-              on: {
-                click: function($event) {
-                  _vm.iconclick
-                  _vm.iconclick("reset")
+          _c("div", { on: { click: _vm.iconclick } }, [
+            _c(
+              "div",
+              {
+                staticClass: "border border-dark",
+                style: {
+                  width: "7vh",
+                  height: "7vh",
+                  backgroundColor: _vm.colour,
+                  float: "left"
+                },
+                on: {
+                  click: function($event) {
+                    _vm.iconclick
+                    _vm.iconclick("reset")
+                  }
                 }
-              }
-            },
-            [
-              _c("div", { staticStyle: { position: "relative" } }, [
-                _vm.icon_location.includes("1")
-                  ? _c("img", {
-                      staticClass: "card-img img-fluid",
-                      style: _vm.iconStyle,
-                      attrs: {
-                        src: "./storage/images/" + this.icon,
-                        alt: "Plant Icon"
+              },
+              [
+                _c("div", { staticStyle: { position: "relative" } }, [
+                  _vm.icon_location.includes("1")
+                    ? _c("img", {
+                        staticClass: "card-img img-fluid",
+                        style: _vm.iconStyle,
+                        attrs: {
+                          src: "./storage/images/" + this.icon,
+                          alt: "Plant Icon"
+                        },
+                        on: {
+                          click: function($event) {
+                            return _vm.iconclick("1")
+                          }
+                        }
+                      })
+                    : _vm._e(),
+                  _vm._v(" "),
+                  _vm.icon_location.includes("2")
+                    ? _c("img", {
+                        staticClass: "card-img img-fluid",
+                        style: [_vm.iconStyle, { left: "50%" }],
+                        attrs: {
+                          src: "./storage/images/" + this.icon,
+                          alt: "Plant Icon"
+                        },
+                        on: {
+                          click: function($event) {
+                            return _vm.iconclick("2")
+                          }
+                        }
+                      })
+                    : _vm._e(),
+                  _vm._v(" "),
+                  _vm.icon_location.includes("3")
+                    ? _c("img", {
+                        staticClass: "card-img img-fluid",
+                        style: [_vm.iconStyle, { top: "3.5vh" }],
+                        attrs: {
+                          src: "./storage/images/" + this.icon,
+                          alt: "Plant Icon"
+                        },
+                        on: {
+                          click: function($event) {
+                            return _vm.iconclick("3")
+                          }
+                        }
+                      })
+                    : _vm._e(),
+                  _vm._v(" "),
+                  _vm.icon_location.includes("4")
+                    ? _c("img", {
+                        staticClass: "card-img img-fluid",
+                        style: [_vm.iconStyle, { top: "3.5vh", left: "50%" }],
+                        attrs: {
+                          src: "./storage/images/" + this.icon,
+                          alt: "Plant Icon"
+                        },
+                        on: {
+                          click: function($event) {
+                            return _vm.iconclick("4")
+                          }
+                        }
+                      })
+                    : _vm._e()
+                ])
+              ]
+            ),
+            _vm._v(" "),
+            _c(
+              "div",
+              { staticClass: "d-flex", staticStyle: { height: "7vh" } },
+              [
+                _c(
+                  "center",
+                  { staticClass: "align-self-center mx-auto tilename" },
+                  [
+                    _vm._v(
+                      "\n                " +
+                        _vm._s(_vm.tile_name) +
+                        "\n                "
+                    ),
+                    _c(
+                      "button",
+                      {
+                        staticClass: "btn btn-danger mb-2",
+                        on: {
+                          click: function($event) {
+                            return _vm.deletePlant(_vm.plantId)
+                          }
+                        }
                       },
-                      on: {
-                        click: function($event) {
-                          return _vm.iconclick("1")
-                        }
-                      }
-                    })
-                  : _vm._e(),
-                _vm._v(" "),
-                _vm.icon_location.includes("2")
-                  ? _c("img", {
-                      staticClass: "card-img img-fluid",
-                      style: [_vm.iconStyle, { left: "50%" }],
-                      attrs: {
-                        src: "./storage/images/" + this.icon,
-                        alt: "Plant Icon"
-                      },
-                      on: {
-                        click: function($event) {
-                          return _vm.iconclick("2")
-                        }
-                      }
-                    })
-                  : _vm._e(),
-                _vm._v(" "),
-                _vm.icon_location.includes("3")
-                  ? _c("img", {
-                      staticClass: "card-img img-fluid",
-                      style: [_vm.iconStyle, { top: "3.5vh" }],
-                      attrs: {
-                        src: "./storage/images/" + this.icon,
-                        alt: "Plant Icon"
-                      },
-                      on: {
-                        click: function($event) {
-                          return _vm.iconclick("3")
-                        }
-                      }
-                    })
-                  : _vm._e(),
-                _vm._v(" "),
-                _vm.icon_location.includes("4")
-                  ? _c("img", {
-                      staticClass: "card-img img-fluid",
-                      style: [_vm.iconStyle, { top: "3.5vh", left: "50%" }],
-                      attrs: {
-                        src: "./storage/images/" + this.icon,
-                        alt: "Plant Icon"
-                      },
-                      on: {
-                        click: function($event) {
-                          return _vm.iconclick("4")
-                        }
-                      }
-                    })
-                  : _vm._e()
-              ])
-            ]
-          ),
-          _vm._v(" "),
-          _c(
-            "div",
-            { staticClass: "d-flex", staticStyle: { height: "7vh" } },
-            [
-              _c(
-                "center",
-                { staticClass: "align-self-center mx-auto tilename" },
-                [
-                  _vm._v(
-                    "\n            " +
-                      _vm._s(_vm.tile_name) +
-                      "\n\n            "
-                  ),
-                  _c(
-                    "button",
-                    {
-                      staticClass: "btn btn-danger mb-2",
-                      on: {
-                        click: function($event) {
-                          return _vm.deletePlant(_vm.plantId)
-                        }
-                      }
-                    },
-                    [_vm._v("Delete All")]
-                  )
-                ]
-              )
-            ],
-            1
-          )
+                      [_vm._v("Delete All")]
+                    )
+                  ]
+                )
+              ],
+              1
+            )
+          ])
         ]
       )
 }
@@ -42803,10 +42895,13 @@ var render = function() {
       _c(
         "div",
         { staticClass: "message-header", on: { click: _vm.toggleAccordion1 } },
-        [_vm._v("\n            How to add a new garden\n        ")]
+        [
+          _vm._v("\n            How to add a new garden\n            "),
+          _vm._m(0)
+        ]
       ),
       _vm._v(" "),
-      _vm._m(0)
+      _vm._m(1)
     ]),
     _vm._v(" "),
     _c("br"),
@@ -42817,10 +42912,13 @@ var render = function() {
       _c(
         "div",
         { staticClass: "message-header", on: { click: _vm.toggleAccordion2 } },
-        [_vm._v("\n            How to customise a garden\n        ")]
+        [
+          _vm._v("\n            How to customise a garden\n            "),
+          _vm._m(2)
+        ]
       ),
       _vm._v(" "),
-      _vm._m(1)
+      _vm._m(3)
     ]),
     _vm._v(" "),
     _c("br"),
@@ -42831,10 +42929,13 @@ var render = function() {
       _c(
         "div",
         { staticClass: "message-header", on: { click: _vm.toggleAccordion3 } },
-        [_vm._v("\n            How to add a new plant\n        ")]
+        [
+          _vm._v("\n            How to add a new plant\n            "),
+          _vm._m(4)
+        ]
       ),
       _vm._v(" "),
-      _vm._m(2)
+      _vm._m(5)
     ]),
     _vm._v(" "),
     _c("br"),
@@ -42847,12 +42948,13 @@ var render = function() {
         { staticClass: "message-header", on: { click: _vm.toggleAccordion4 } },
         [
           _vm._v(
-            "\n            How to customise the plants on one tile\n        "
-          )
+            "\n            How to customise the plants on one tile\n            "
+          ),
+          _vm._m(6)
         ]
       ),
       _vm._v(" "),
-      _vm._m(3)
+      _vm._m(7)
     ]),
     _vm._v(" "),
     _c("br"),
@@ -42863,14 +42965,25 @@ var render = function() {
       _c(
         "div",
         { staticClass: "message-header", on: { click: _vm.toggleAccordion5 } },
-        [_vm._v("\n            How to save a garden history\n        ")]
+        [
+          _vm._v("\n            How to save a garden history\n            "),
+          _vm._m(8)
+        ]
       ),
       _vm._v(" "),
-      _vm._m(4)
+      _vm._m(9)
     ])
   ])
 }
 var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticStyle: { float: "right" } }, [
+      _c("i", { staticClass: "arrow down" })
+    ])
+  },
   function() {
     var _vm = this
     var _h = _vm.$createElement
@@ -42893,6 +43006,14 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
+    return _c("div", { staticStyle: { float: "right" } }, [
+      _c("i", { staticClass: "arrow down" })
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
     return _c("div", { staticClass: "message-body" }, [
       _c("div", { staticClass: "message-content" }, [
         _c("ol", [
@@ -42905,6 +43026,14 @@ var staticRenderFns = [
           _c("li", [_vm._v('Click "Save Layout" to save the garden')])
         ])
       ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticStyle: { float: "right" } }, [
+      _c("i", { staticClass: "arrow down" })
     ])
   },
   function() {
@@ -42931,6 +43060,14 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
+    return _c("div", { staticStyle: { float: "right" } }, [
+      _c("i", { staticClass: "arrow down" })
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
     return _c("div", { staticClass: "message-body" }, [
       _c("div", { staticClass: "message-content" }, [
         _c("ol", [
@@ -42945,6 +43082,14 @@ var staticRenderFns = [
           _c("li", [_vm._v("If the tile is empty, click again to refill it")])
         ])
       ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticStyle: { float: "right" } }, [
+      _c("i", { staticClass: "arrow down" })
     ])
   },
   function() {
@@ -43544,22 +43689,127 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _vm._m(0)
-}
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "flex-center position-ref" }, [
-      _c("div", { staticClass: "content" }, [
-        _c("div", { staticClass: "title m-b-md" }, [
-          _vm._v("\n            Welcome to a Gardener's Diary!\n        ")
-        ])
+  return _c("div", { staticClass: "flex-center position-ref" }, [
+    _c("div", { staticClass: "content" }, [
+      _c("div", { staticClass: "title m-b-md" }, [
+        _vm._v("\n            Welcome to a Gardener's Diary!\n        ")
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "slideshow-container" }, [
+        _c("div", { staticClass: "mySlides" }, [
+          _c("img", {
+            staticStyle: { width: "100%" },
+            attrs: { src: _vm.edit }
+          }),
+          _vm._v(" "),
+          _c("div", { staticClass: "text" }, [
+            _vm._v("You can create your virtual garden!")
+          ])
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "mySlides" }, [
+          _c("img", {
+            staticStyle: { width: "100%" },
+            attrs: { src: _vm.activities }
+          }),
+          _vm._v(" "),
+          _c("div", { staticClass: "text" }, [
+            _vm._v("You can track your gardening activities!")
+          ])
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "mySlides" }, [
+          _c("img", {
+            staticStyle: { width: "100%" },
+            attrs: { src: _vm.history1 }
+          }),
+          _vm._v(" "),
+          _c("div", { staticClass: "text" }, [
+            _vm._v("You can save your garden's history...")
+          ])
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "mySlides" }, [
+          _c("img", {
+            staticStyle: { width: "100%" },
+            attrs: { src: _vm.history2 }
+          }),
+          _vm._v(" "),
+          _c("div", { staticClass: "text" }, [
+            _vm._v("... and see how your garden has changed!")
+          ])
+        ]),
+        _vm._v(" "),
+        _c(
+          "a",
+          {
+            staticClass: "prev",
+            on: {
+              click: function($event) {
+                return _vm.plusSlides(-1)
+              }
+            }
+          },
+          [_vm._v("❮")]
+        ),
+        _vm._v(" "),
+        _c(
+          "a",
+          {
+            staticClass: "next",
+            on: {
+              click: function($event) {
+                return _vm.plusSlides(1)
+              }
+            }
+          },
+          [_vm._v("❯")]
+        )
+      ]),
+      _vm._v(" "),
+      _c("br"),
+      _vm._v(" "),
+      _c("div", { staticStyle: { "text-align": "center" } }, [
+        _c("span", {
+          staticClass: "dot",
+          on: {
+            click: function($event) {
+              return _vm.currentSlide(1)
+            }
+          }
+        }),
+        _vm._v(" "),
+        _c("span", {
+          staticClass: "dot",
+          on: {
+            click: function($event) {
+              return _vm.currentSlide(2)
+            }
+          }
+        }),
+        _vm._v(" "),
+        _c("span", {
+          staticClass: "dot",
+          on: {
+            click: function($event) {
+              return _vm.currentSlide(3)
+            }
+          }
+        }),
+        _vm._v(" "),
+        _c("span", {
+          staticClass: "dot",
+          on: {
+            click: function($event) {
+              return _vm.currentSlide(4)
+            }
+          }
+        })
       ])
     ])
-  }
-]
+  ])
+}
+var staticRenderFns = []
 render._withStripped = true
 
 
@@ -60214,12 +60464,6 @@ vue__WEBPACK_IMPORTED_MODULE_16___default.a.component('edit-activity', _componen
 vue__WEBPACK_IMPORTED_MODULE_16___default.a.component('create-history', _components_CreateHistoryComponent__WEBPACK_IMPORTED_MODULE_10__["default"]);
 
 vue__WEBPACK_IMPORTED_MODULE_16___default.a.component('manage-history', _components_ManageHistoryComponent__WEBPACK_IMPORTED_MODULE_11__["default"]);
-/**
- * Next, we will create a fresh Vue application instance and attach it to
- * the page. Then, you may begin adding components to this application
- * or customize the JavaScript scaffolding to fit your unique needs.
- */
-
 
 
 
@@ -60254,6 +60498,12 @@ var router = new vue_router__WEBPACK_IMPORTED_MODULE_1__["default"]({
     component: _components_HelpComponent__WEBPACK_IMPORTED_MODULE_15__["default"]
   }]
 });
+/**
+ * Next, we will create a fresh Vue application instance and attach it to
+ * the page. Then, you may begin adding components to this application
+ * or customize the JavaScript scaffolding to fit your unique needs.
+ */
+
 var app = new vue__WEBPACK_IMPORTED_MODULE_16___default.a({
   store: _store__WEBPACK_IMPORTED_MODULE_0__["default"],
   el: '#app',

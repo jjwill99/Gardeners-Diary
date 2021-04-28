@@ -2,8 +2,6 @@
 
 <div>
 
-    <!-- <view-history :value="showHistory" @closePopup='toggleHistory()'></view-history> -->
-
     <div v-show="value && !showHistory">
         <transition name="model">
             <div class="modal-mask">
@@ -25,7 +23,6 @@
                                                 <div><b>{{ history.name }}</b></div>
                                                 <div>Date: {{ history.date }}</div>
                                                 <span style="float: right;">
-                                                    <!-- <button class="btn btn-primary" v-on:click="toggleHistory()">View Garden</button> -->
                                                     <router-link class="btn btn-primary" :to="{path: '/gardenHistory?id=' + history.id}">View Garden</router-link>
                                                     <button class="btn btn-danger" v-on:click="deleteHistory(history.id)">Delete</button>
                                                 </span>

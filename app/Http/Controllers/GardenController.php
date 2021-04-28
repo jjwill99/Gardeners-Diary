@@ -10,9 +10,7 @@ use App\PlantLocation;
 class GardenController extends Controller
 {
     /**
-     * Show the application dashboard.
-     *
-     * @return \Illuminate\Contracts\Support\Renderable
+     * Retrieve all gardens owned by the user.
      */
     public function index() {
         $userId = \Auth::user()->id;
@@ -23,6 +21,9 @@ class GardenController extends Controller
         return response()->json($gardens);
     }
 
+    /**
+     * Check that the user owns the selected garden.
+     */
     public function checkUser(Request $request){
         $gardenId = $request->input('gardenId');
         
@@ -35,29 +36,9 @@ class GardenController extends Controller
         ]);
     }
 
-    public function show(Request $request){
-        $id = $request->fullUrl();
-        $id = str_replace('=', '', substr($id, strpos($id, '?') + 1));
-
-        $garden = Garden::find($id);
-        $plants = Plant::orderBy('id')->get()->where('garden_id', '=', $id);
-
-        $plantIcons = Plant::join('plant_locations', 'plants.id', '=', 'plant_locations.plant_id')
-            ->select('plants.icon', 'plant_locations.row', 'plant_locations.column', 'plant_locations.icon_location')
-            ->selectRaw('(plant_locations.icon_location LIKE "%1%") AS one')
-            ->selectRaw('(plant_locations.icon_location LIKE "%2%") AS two')
-            ->selectRaw('(plant_locations.icon_location LIKE "%3%") AS three')
-            ->selectRaw('(plant_locations.icon_location LIKE "%4%") AS four')
-            ->where('plants.garden_id', '=', $garden->id)
-            ->get();
-
-        return view('gardens.show', array('garden'=> $garden, 'plants'=>$plants, 'plantIcons'=>$plantIcons));
-    }
-
-    public function create(){
-        return view('gardens.create');
-    }
-
+    /**
+     * Update the database to reflect the user's changes to their garden.
+     */
     public function update(Request $request){
         $gardenId = $request->input('gardenId');
 
@@ -99,8 +80,11 @@ class GardenController extends Controller
         return back()->with('success', ' Garden has been updated');
     }
 
+    /**
+     * Create a new garden record using data from the "Add New Garden" form.
+     */
     public function store(Request $request){
-        //form validation
+        //Form validation
         if ($request->input('picture') == 'null') {
             $garden = $this->validate(request(), [
                 'name' => 'required',
@@ -155,22 +139,9 @@ class GardenController extends Controller
         return back()->with('success', 'Garden has been added');
     }
 
-    public function edit(){
-        $garden = Garden::find($id);
-        $plants = Plant::orderBy('id')->get()->where('garden_id', '=', $id);
-
-        $plantIcons = Plant::join('plant_locations', 'plants.id', '=', 'plant_locations.plant_id')
-            ->select('plants.icon', 'plant_locations.row', 'plant_locations.column', 'plant_locations.icon_location')
-            ->selectRaw('(plant_locations.icon_location LIKE "%1%") AS one')
-            ->selectRaw('(plant_locations.icon_location LIKE "%2%") AS two')
-            ->selectRaw('(plant_locations.icon_location LIKE "%3%") AS three')
-            ->selectRaw('(plant_locations.icon_location LIKE "%4%") AS four')
-            ->where('plants.garden_id', '=', $garden->id)
-            ->get();
-
-        return view('gardens.edit', array('garden'=> $garden, 'plants'=>$plants, 'plantIcons'=>$plantIcons));
-    }
-
+    /**
+     * Retrieve all garden information for the specified garden.
+     */
     public function getGarden(Request $request){
         $gardenId = $request->input('gardenId');
         
@@ -179,6 +150,9 @@ class GardenController extends Controller
         return response()->json($garden);
     }
 
+    /**
+     * Delete the specified garden record from the database.
+     */
     public function destroy(Request $request)
     {
         $id = $request->input('id');
